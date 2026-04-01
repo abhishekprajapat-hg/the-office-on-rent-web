@@ -22,6 +22,35 @@ type StatusMessage = {
 
 const storageKey = "office-on-rent-latest-inquiry";
 const bookingSectionId = "booking-form";
+const footerServices = [
+  {
+    label: "Coworking Space",
+    href: "https://theofficeonrent.com/coworking-space/"
+  },
+  {
+    label: "New Commercial Projects",
+    href: "https://theofficeonrent.com/new-commercial-projects/"
+  },
+  {
+    label: "Ready to Move Office",
+    href: "https://theofficeonrent.com/ready-to-move-office/"
+  },
+  {
+    label: "Contact US",
+    href: "#booking-form"
+  }
+] as const;
+
+const footerOtherLinks = [
+  {
+    label: "Blog",
+    href: "https://theofficeonrent.com/blog/"
+  },
+  {
+    label: "Privacy Policy",
+    href: "https://theofficeonrent.com/privacy-policy/"
+  }
+] as const;
 
 function getLocalDateString() {
   const now = new Date();
@@ -510,6 +539,87 @@ export function OfficeShowcase() {
           </div>
         </section>
       </main>
+
+      <footer className="site-footer">
+        <div className="footer-grid">
+          <section className="footer-column footer-about">
+            <p className="eyebrow footer-eyebrow">The Office On Rent</p>
+            <p className="footer-description">
+              The Office on Rent offers fully-furnished and customizable office spaces for startups,
+              freelancers, and established businesses in Indore. Choose from private cabins,
+              co-working desks, or entire floors, all designed to meet your growing needs.
+            </p>
+
+            <div className="footer-actions">
+              <a className="button" href="tel:+918602129377">
+                Enquiry Now
+              </a>
+              <a
+                className="button button-secondary"
+                href="https://wa.me/918602129377"
+                target="_blank"
+                rel="noreferrer"
+              >
+                WhatsApp
+              </a>
+            </div>
+          </section>
+
+          <section className="footer-column">
+            <h3>Services</h3>
+            <nav className="footer-nav" aria-label="Footer services">
+              {footerServices.map((item) => (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  target={item.href.startsWith("https://") ? "_blank" : undefined}
+                  rel={item.href.startsWith("https://") ? "noreferrer" : undefined}
+                >
+                  {item.label}
+                </a>
+              ))}
+            </nav>
+          </section>
+
+          <section className="footer-column">
+            <h3>Other Links</h3>
+            <nav className="footer-nav" aria-label="Footer links">
+              {footerOtherLinks.map((item) => (
+                <a key={item.label} href={item.href} target="_blank" rel="noreferrer">
+                  {item.label}
+                </a>
+              ))}
+            </nav>
+          </section>
+
+          <section className="footer-column">
+            <h3>Contact</h3>
+            <div className="footer-contact-list">
+              <a href="tel:+918602129377">+91 86021 29377</a>
+              <a href="https://wa.me/918602129377" target="_blank" rel="noreferrer">
+                Chat on WhatsApp
+              </a>
+              <p>Gravity Mall, Plot-27, Mechanic Nagar, Scheme No 54, Indore, Madhya Pradesh 452011</p>
+            </div>
+          </section>
+        </div>
+
+        <div className="footer-bottom">
+          <p>Gravity Mall, Plot-27, Mechanic Nagar, Scheme No 54, Indore, Madhya Pradesh 452011</p>
+          <div className="footer-bottom-links">
+            <span>Terms of Service</span>
+            <a href="https://theofficeonrent.com/privacy-policy/" target="_blank" rel="noreferrer">
+              Privacy Policy
+            </a>
+          </div>
+          <p>
+            Copyright 2025. All rights reserved. Developed &amp; Designed by{" "}
+            <a href="https://zenixtechnology.com/" target="_blank" rel="noreferrer">
+              Zenix Technology
+            </a>
+          </p>
+        </div>
+      </footer>
     </div>
   );
 }
