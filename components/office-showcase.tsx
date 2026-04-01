@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { FormEvent, startTransition, useDeferredValue, useEffect, useState } from "react";
 import { properties } from "../data/properties";
 
@@ -31,26 +32,28 @@ function getLocalDateString() {
 export function OfficeShowcase() {
   const [locationFilter, setLocationFilter] = useState("all");
   const [typeFilter, setTypeFilter] = useState("all");
-  const [capacityFilter, setCapacityFilter] = useState("all");
+  const [brochureFilter, setBrochureFilter] = useState("all");
   const [selectedPropertyId, setSelectedPropertyId] = useState("");
   const [latestInquiry, setLatestInquiry] = useState<Inquiry | null>(null);
   const [statusMessage, setStatusMessage] = useState<StatusMessage | null>(null);
 
   const deferredLocation = useDeferredValue(locationFilter);
   const deferredType = useDeferredValue(typeFilter);
-  const deferredCapacity = useDeferredValue(capacityFilter);
+  const deferredBrochure = useDeferredValue(brochureFilter);
 
-  const cities = Array.from(new Set(properties.map((property) => property.city)));
+  const zones = Array.from(new Set(properties.map((property) => property.zone)));
+  const projectTypes = Array.from(new Set(properties.map((property) => property.type)));
   const featuredProperty = properties[0];
   const selectedProperty = properties.find((property) => property.id === selectedPropertyId) ?? null;
 
   const filteredProperties = properties.filter((property) => {
-    const matchesLocation = deferredLocation === "all" || property.city === deferredLocation;
+    const matchesLocation = deferredLocation === "all" || property.zone === deferredLocation;
     const matchesType = deferredType === "all" || property.type === deferredType;
-    const matchesCapacity =
-      deferredCapacity === "all" || property.seats >= Number(deferredCapacity);
+    const matchesBrochure =
+      deferredBrochure === "all" ||
+      (deferredBrochure === "with-brochure" ? Boolean(property.brochureUrl) : !property.brochureUrl);
 
-    return matchesLocation && matchesType && matchesCapacity;
+    return matchesLocation && matchesType && matchesBrochure;
   });
 
   useEffect(() => {
@@ -71,7 +74,7 @@ export function OfficeShowcase() {
   function resetFilters() {
     setLocationFilter("all");
     setTypeFilter("all");
-    setCapacityFilter("all");
+    setBrochureFilter("all");
   }
 
   function focusBookingForm() {
@@ -154,12 +157,12 @@ export function OfficeShowcase() {
       <main id="top" className="page-content">
         <section className="hero-section">
           <div className="hero-copy">
-            <p className="eyebrow">Flexible workspaces for growing teams</p>
-            <h1>Browse premium office spaces and book the right one through one smart form.</h1>
+            <p className="eyebrow">Imported commercial project data</p>
+            <h1>Browse public office project listings and send a booking request from one place.</h1>
             <p className="hero-text">
-              Explore managed offices, private suites, and enterprise floors across prime business
-              districts. Compare seats, location, lease terms, and amenities before you submit a
-              booking request.
+              We mapped public project information from The Office On Rent into a cleaner booking
+              experience so you can compare location, project type, amenities, and brochure
+              availability before submitting an enquiry.
             </p>
 
             <div className="hero-actions">
@@ -173,16 +176,16 @@ export function OfficeShowcase() {
 
             <div className="metrics-grid">
               <article>
-                <strong>42+</strong>
-                <span>Ready-to-move offices</span>
+                <strong>{properties.length}</strong>
+                <span>Imported project listings</span>
               </article>
               <article>
-                <strong>8</strong>
-                <span>Business districts covered</span>
+                <strong>{zones.length}</strong>
+                <span>Indore micro-markets</span>
               </article>
               <article>
-                <strong>96%</strong>
-                <span>Shortlist satisfaction score</span>
+                <strong>{properties.filter((property) => property.brochureUrl).length}</strong>
+                <span>Projects with brochure links</span>
               </article>
             </div>
           </div>
@@ -190,27 +193,33 @@ export function OfficeShowcase() {
           <aside className="hero-panel" aria-label="Featured workspace">
             <div className="hero-panel-top">
               <span className="pill">Featured listing</span>
-              <span className="pill pill-muted">4.9/5 tenant rating</span>
+              <span className="pill pill-muted">Public project profile</span>
             </div>
 
             <div className="hero-panel-visual">
-              <div className="window-stack" aria-hidden="true">
-                {Array.from({ length: 8 }).map((_, index) => (
-                  <span key={index} />
-                ))}
-              </div>
+              <Image
+                src={featuredProperty.imageUrl}
+                alt={featuredProperty.name}
+                fill
+                className="hero-panel-image"
+                sizes="(max-width: 1080px) 100vw, 34vw"
+                priority
+              />
+              <div className={`hero-panel-photo-overlay ${featuredProperty.skin}`} aria-hidden="true" />
 
-              <div className="hero-property-card">
-                <p>{featuredProperty.name}</p>
-                <strong>{featuredProperty.type}</strong>
-                <span>{featuredProperty.location}</span>
+              <div className="hero-panel-stage">
+                <div className="hero-property-card">
+                  <p>{featuredProperty.name}</p>
+                  <strong>{featuredProperty.type}</strong>
+                  <span>{featuredProperty.location}</span>
+                </div>
               </div>
             </div>
 
             <div className="hero-panel-footer">
               <div>
-                <small>Starting from</small>
-                <strong>{featuredProperty.price}</strong>
+                <small>Project zone</small>
+                <strong>{featuredProperty.zone}</strong>
               </div>
               <div>
                 <small>Availability</small>
@@ -224,48 +233,42 @@ export function OfficeShowcase() {
           <div className="section-heading">
             <div>
               <p className="eyebrow">Available properties</p>
-              <h2>Match your team to the right office</h2>
+              <h2>Filter imported projects before you enquire</h2>
             </div>
-            <p className="section-note">
-              Showing {filteredProperties.length} office space
-              {filteredProperties.length === 1 ? "" : "s"} based on your current filters.
-            </p>
+            <p className="section-note">Showing {filteredProperties.length} public project listings.</p>
           </div>
 
           <div className="filter-panel">
             <label>
-              Location
+              Project area
               <select value={locationFilter} onChange={(event) => setLocationFilter(event.target.value)}>
-                <option value="all">All cities</option>
-                {cities.map((city) => (
-                  <option key={city} value={city}>
-                    {city}
+                <option value="all">All areas</option>
+                {zones.map((zone) => (
+                  <option key={zone} value={zone}>
+                    {zone}
                   </option>
                 ))}
               </select>
             </label>
 
             <label>
-              Workspace type
+              Project type
               <select value={typeFilter} onChange={(event) => setTypeFilter(event.target.value)}>
                 <option value="all">All types</option>
-                <option value="Managed Office">Managed Office</option>
-                <option value="Private Suite">Private Suite</option>
-                <option value="Enterprise Floor">Enterprise Floor</option>
-                <option value="Coworking Cabin">Coworking Cabin</option>
+                {projectTypes.map((projectType) => (
+                  <option key={projectType} value={projectType}>
+                    {projectType}
+                  </option>
+                ))}
               </select>
             </label>
 
             <label>
-              Team size
-              <select
-                value={capacityFilter}
-                onChange={(event) => setCapacityFilter(event.target.value)}
-              >
-                <option value="all">Any size</option>
-                <option value="10">10+ seats</option>
-                <option value="20">20+ seats</option>
-                <option value="40">40+ seats</option>
+              Brochure status
+              <select value={brochureFilter} onChange={(event) => setBrochureFilter(event.target.value)}>
+                <option value="all">All projects</option>
+                <option value="with-brochure">With brochure</option>
+                <option value="without-brochure">Without brochure</option>
               </select>
             </label>
 
@@ -282,10 +285,18 @@ export function OfficeShowcase() {
                   key={property.id}
                 >
                   <div className={`property-visual ${property.skin}`}>
+                    <Image
+                      src={property.imageUrl}
+                      alt={property.name}
+                      fill
+                      className="property-photo"
+                      sizes="(max-width: 820px) 100vw, (max-width: 1080px) 50vw, 33vw"
+                    />
+                    <div className={`property-photo-overlay ${property.skin}`} aria-hidden="true" />
                     <span className="property-badge">{property.type}</span>
                     <div className="property-visual-copy">
-                      <small>{property.availability}</small>
-                      <strong>{property.area}</strong>
+                      <small>{property.brochureLabel}</small>
+                      <strong>{property.city}</strong>
                     </div>
                   </div>
 
@@ -296,8 +307,8 @@ export function OfficeShowcase() {
                         <p>{property.location}</p>
                       </div>
                       <div className="property-price">
-                        <strong>{property.price}</strong>
-                        <span>{property.lease}</span>
+                        <strong>{property.availability}</strong>
+                        <span>{property.zone}</span>
                       </div>
                     </div>
 
@@ -305,16 +316,16 @@ export function OfficeShowcase() {
 
                     <div className="property-metrics">
                       <article>
-                        <strong>{property.seats}</strong>
-                        <span>Seats</span>
-                      </article>
-                      <article>
-                        <strong>{property.area}</strong>
-                        <span>Area</span>
-                      </article>
-                      <article>
                         <strong>{property.city}</strong>
                         <span>City</span>
+                      </article>
+                      <article>
+                        <strong>{property.zone}</strong>
+                        <span>Zone</span>
+                      </article>
+                      <article>
+                        <strong>{property.brochureUrl ? "Available" : "Page only"}</strong>
+                        <span>Brochure</span>
                       </article>
                     </div>
 
@@ -324,16 +335,26 @@ export function OfficeShowcase() {
                       ))}
                     </div>
 
-                    <button className="button card-button" type="button" onClick={() => selectProperty(property.id)}>
-                      Book this office
-                    </button>
+                    <div className="property-actions">
+                      <button className="button card-button" type="button" onClick={() => selectProperty(property.id)}>
+                        Book this office
+                      </button>
+                      <a
+                        className="button button-secondary card-button"
+                        href={property.brochureUrl ?? property.sourceUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        {property.brochureUrl ? "View brochure" : "Open source page"}
+                      </a>
+                    </div>
                   </div>
                 </article>
               ))
             ) : (
               <div className="empty-state">
-                <h3>No offices match these filters</h3>
-                <p>Reset the filters to see all listed workspaces again.</p>
+                <h3>No projects match these filters</h3>
+                <p>Reset the filters to see all imported project listings again.</p>
               </div>
             )}
           </div>
@@ -349,16 +370,16 @@ export function OfficeShowcase() {
 
           <div className="advantages-grid">
             <article>
-              <h3>Transparent pricing</h3>
-              <p>Monthly rent, lease guidance, and move-in timing are visible before you even open the form.</p>
+              <h3>Public project facts</h3>
+              <p>Project names, locations, amenities, and brochure links are mapped from publicly visible source pages.</p>
             </article>
             <article>
-              <h3>Curated amenities</h3>
-              <p>Meeting rooms, reception support, parking, internet, and security are summarized on every card.</p>
+              <h3>Cleaner shortlisting</h3>
+              <p>The imported listings are organized into zones and project types so comparing options is faster.</p>
             </article>
             <article>
               <h3>Property-aware booking</h3>
-              <p>Choose a listing and the booking form automatically remembers the office you want to visit.</p>
+              <p>Choose a project and the booking form remembers it automatically before you send your enquiry.</p>
             </article>
           </div>
         </section>
@@ -369,8 +390,8 @@ export function OfficeShowcase() {
               <p className="eyebrow">Book office space</p>
               <h2>Send your workspace request</h2>
               <p>
-                Fill out the booking form to arrange a tour, request layout details, and confirm
-                availability for your preferred office.
+                Fill out the booking form to request a tour, ask for project details, and start the
+                conversation for your preferred office location.
               </p>
 
               <div className="selected-office-panel">
@@ -379,7 +400,7 @@ export function OfficeShowcase() {
                   <>
                     <strong>{selectedProperty.name}</strong>
                     <p>
-                      {selectedProperty.location} | {selectedProperty.seats} seats | {selectedProperty.price}
+                      {selectedProperty.location} | {selectedProperty.type} | {selectedProperty.availability}
                     </p>
                   </>
                 ) : (

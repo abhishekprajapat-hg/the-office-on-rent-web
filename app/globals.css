@@ -345,51 +345,90 @@ h3 {
   position: relative;
   display: flex;
   align-items: end;
-  justify-content: space-between;
-  gap: 22px;
   min-height: 340px;
   margin: 24px 0;
   padding: 24px;
   border-radius: 28px;
   overflow: hidden;
-  background:
-    linear-gradient(160deg, rgba(29, 53, 87, 0.94), rgba(15, 118, 110, 0.9)),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.12), transparent);
+  background: #1d3557;
+  isolation: isolate;
 }
 
-.hero-panel-visual::before {
-  content: "";
+.hero-panel-image {
   position: absolute;
   inset: 0;
-  background:
-    linear-gradient(115deg, rgba(255, 255, 255, 0.14), transparent 32%),
-    radial-gradient(circle at top right, rgba(239, 194, 123, 0.18), transparent 30%);
+  object-fit: cover;
+  z-index: 0;
 }
 
-.window-stack {
-  position: relative;
+.hero-panel-photo-overlay {
+  position: absolute;
+  inset: 0;
   z-index: 1;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
-  width: 48%;
+  background:
+    linear-gradient(180deg, rgba(13, 24, 41, 0.16), rgba(13, 24, 41, 0.72)),
+    linear-gradient(115deg, rgba(255, 255, 255, 0.08), transparent 36%);
 }
 
-.window-stack span {
-  display: block;
-  aspect-ratio: 1;
-  border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.26), rgba(255, 255, 255, 0.02));
+.hero-panel-photo-overlay.sunset,
+.property-photo-overlay.sunset {
+  background:
+    linear-gradient(180deg, rgba(80, 29, 12, 0.1), rgba(80, 29, 12, 0.72)),
+    linear-gradient(135deg, rgba(240, 139, 87, 0.24), rgba(228, 95, 51, 0.48));
+}
+
+.hero-panel-photo-overlay.harbor,
+.property-photo-overlay.harbor {
+  background:
+    linear-gradient(180deg, rgba(12, 31, 46, 0.14), rgba(12, 31, 46, 0.72)),
+    linear-gradient(135deg, rgba(21, 133, 123, 0.22), rgba(29, 53, 87, 0.54));
+}
+
+.hero-panel-photo-overlay.citrine,
+.property-photo-overlay.citrine {
+  background:
+    linear-gradient(180deg, rgba(77, 45, 7, 0.1), rgba(77, 45, 7, 0.72)),
+    linear-gradient(135deg, rgba(229, 177, 94, 0.22), rgba(217, 119, 6, 0.52));
+}
+
+.hero-panel-photo-overlay.midnight,
+.property-photo-overlay.midnight {
+  background:
+    linear-gradient(180deg, rgba(11, 18, 31, 0.12), rgba(11, 18, 31, 0.76)),
+    linear-gradient(135deg, rgba(45, 79, 125, 0.2), rgba(24, 38, 60, 0.56));
+}
+
+.hero-panel-photo-overlay.clay,
+.property-photo-overlay.clay {
+  background:
+    linear-gradient(180deg, rgba(68, 23, 18, 0.1), rgba(68, 23, 18, 0.72)),
+    linear-gradient(135deg, rgba(241, 143, 107, 0.2), rgba(219, 94, 74, 0.52));
+}
+
+.hero-panel-photo-overlay.grove,
+.property-photo-overlay.grove {
+  background:
+    linear-gradient(180deg, rgba(11, 34, 29, 0.12), rgba(11, 34, 29, 0.76)),
+    linear-gradient(135deg, rgba(47, 122, 102, 0.2), rgba(32, 83, 73, 0.54));
+}
+
+.hero-panel-stage {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: end;
+  width: 100%;
+  min-height: 100%;
 }
 
 .hero-property-card {
   position: relative;
-  z-index: 1;
-  width: min(230px, 50%);
+  z-index: 2;
+  width: min(260px, 62%);
   padding: 20px;
   border-radius: 24px;
-  background: rgba(255, 249, 241, 0.95);
+  background: rgba(255, 249, 241, 0.92);
+  backdrop-filter: blur(12px);
 }
 
 .hero-property-card p,
@@ -529,6 +568,8 @@ h3 {
   gap: 20px;
   color: #fffdf8;
   overflow: hidden;
+  background: #1d3557;
+  isolation: isolate;
 }
 
 .property-visual::before,
@@ -536,6 +577,7 @@ h3 {
   content: "";
   position: absolute;
   border-radius: 50%;
+  z-index: 1;
 }
 
 .property-visual::before {
@@ -554,28 +596,20 @@ h3 {
   background: rgba(255, 255, 255, 0.12);
 }
 
-.property-visual.sunset {
-  background: linear-gradient(160deg, #f08b57, #e45f33);
+.property-photo {
+  position: absolute;
+  inset: 0;
+  object-fit: cover;
+  z-index: 0;
 }
 
-.property-visual.harbor {
-  background: linear-gradient(160deg, #15857b, #1d3557);
-}
-
-.property-visual.citrine {
-  background: linear-gradient(160deg, #e5b15e, #d97706);
-}
-
-.property-visual.midnight {
-  background: linear-gradient(160deg, #2d4f7d, #18263c);
-}
-
-.property-visual.clay {
-  background: linear-gradient(160deg, #f18f6b, #db5e4a);
-}
-
-.property-visual.grove {
-  background: linear-gradient(160deg, #2f7a66, #205349);
+.property-photo-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(180deg, rgba(13, 24, 41, 0.12), rgba(13, 24, 41, 0.78)),
+    linear-gradient(120deg, rgba(255, 255, 255, 0.08), transparent 40%);
 }
 
 .property-badge,
@@ -588,7 +622,7 @@ h3 {
 
 .property-badge {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   min-height: 34px;
   padding: 0 12px;
   border: 1px solid rgba(255, 255, 255, 0.22);
@@ -599,7 +633,7 @@ h3 {
 
 .property-visual-copy {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   max-width: 46%;
   padding: 16px;
   border-radius: 20px;
@@ -641,6 +675,7 @@ h3 {
 .property-price strong {
   display: block;
   font-size: 1.1rem;
+  line-height: 1.35;
 }
 
 .property-price span {
@@ -687,6 +722,12 @@ h3 {
   background: #ffffff;
   border: 1px solid rgba(31, 42, 45, 0.1);
   font-size: 0.9rem;
+}
+
+.property-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
 }
 
 .card-button {
@@ -893,7 +934,8 @@ h3 {
   .property-grid,
   .advantages-grid,
   .form-grid,
-  .property-metrics {
+  .property-metrics,
+  .property-actions {
     grid-template-columns: 1fr;
   }
 
@@ -915,7 +957,6 @@ h3 {
     align-items: stretch;
   }
 
-  .window-stack,
   .hero-property-card,
   .property-visual-copy {
     width: 100%;
