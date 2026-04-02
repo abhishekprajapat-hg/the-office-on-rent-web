@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { FormEvent, startTransition, useDeferredValue, useEffect, useState } from "react";
 import { properties } from "../data/properties";
+import { SiteChrome } from "./site-chrome";
 
 type Inquiry = {
   fullName: string;
@@ -22,35 +23,6 @@ type StatusMessage = {
 
 const storageKey = "office-on-rent-latest-inquiry";
 const bookingSectionId = "booking-form";
-const footerServices = [
-  {
-    label: "Coworking Space",
-    href: "https://theofficeonrent.com/coworking-space/"
-  },
-  {
-    label: "New Commercial Projects",
-    href: "https://theofficeonrent.com/new-commercial-projects/"
-  },
-  {
-    label: "Ready to Move Office",
-    href: "https://theofficeonrent.com/ready-to-move-office/"
-  },
-  {
-    label: "Contact US",
-    href: "#booking-form"
-  }
-] as const;
-
-const footerOtherLinks = [
-  {
-    label: "Blog",
-    href: "https://theofficeonrent.com/blog/"
-  },
-  {
-    label: "Privacy Policy",
-    href: "https://theofficeonrent.com/privacy-policy/"
-  }
-] as const;
 
 function getLocalDateString() {
   const now = new Date();
@@ -73,6 +45,13 @@ export function OfficeShowcase() {
   const zones = Array.from(new Set(properties.map((property) => property.zone)));
   const projectTypes = Array.from(new Set(properties.map((property) => property.type)));
   const featuredProperty = properties[0];
+  const heroHighlights = [
+    `${properties.length}+ verified office options`,
+    `${zones.length} prime Indore zones`,
+    `${properties.filter((property) => property.brochureUrl).length} brochure-ready projects`
+  ];
+  const heroAmenities = featuredProperty.amenities.slice(0, 3);
+  const heroZones = zones.slice(0, 4);
   const selectedProperty = properties.find((property) => property.id === selectedPropertyId) ?? null;
 
   const filteredProperties = properties.filter((property) => {
@@ -162,97 +141,104 @@ export function OfficeShowcase() {
   }
 
   return (
-    <div className="site-shell">
-      <header className="site-header">
-        <a className="brand" href="#top" aria-label="Office On Rent home">
-          <span className="brand-mark">OR</span>
-          <span>
-            <strong>Office On Rent</strong>
-            <small>Commercial Real Estate</small>
-          </span>
-        </a>
-
-        <nav className="site-nav" aria-label="Primary navigation">
-          <a href="#properties">Properties</a>
-          <a href="#advantages">Why us</a>
-          <a href="#booking-form">Book a visit</a>
-        </nav>
-
-        <a className="button button-ghost" href="#booking-form">
-          Book Office Space
-        </a>
-      </header>
-
+    <SiteChrome>
       <main id="top" className="page-content">
         <section className="hero-section">
           <div className="hero-copy">
-            <p className="eyebrow">Imported commercial project data</p>
-            <h1>Browse public office project listings and send a booking request from one place.</h1>
+            <p className="eyebrow hero-eyebrow">Office On Rent Indore</p>
+            <h1>
+              Find your next <span>office space</span> in Indore
+            </h1>
             <p className="hero-text">
-              We mapped public project information from The Office On Rent into a cleaner booking
-              experience so you can compare location, project type, amenities, and brochure
-              availability before submitting an enquiry.
+              Explore workspace options across Indore with clearer property context, brochure-backed
+              listings, and a faster enquiry flow for startups, professionals, and growing teams.
             </p>
 
             <div className="hero-actions">
               <a className="button" href="#properties">
-                Browse Properties
+                Explore Spaces
               </a>
               <a className="button button-secondary" href="#booking-form">
-                Request a Tour
+                Book a Visit
               </a>
             </div>
 
-            <div className="metrics-grid">
-              <article>
-                <strong>{properties.length}</strong>
-                <span>Imported project listings</span>
-              </article>
-              <article>
-                <strong>{zones.length}</strong>
-                <span>Indore micro-markets</span>
-              </article>
-              <article>
-                <strong>{properties.filter((property) => property.brochureUrl).length}</strong>
-                <span>Projects with brochure links</span>
-              </article>
+            <div className="hero-highlight-list" aria-label="Key highlights">
+              {heroHighlights.map((highlight) => (
+                <span key={highlight}>{highlight}</span>
+              ))}
+            </div>
+
+            <div className="hero-micro-stats">
+              <span>Shortlist by location</span>
+              <span>Compare project types</span>
+              <span>Book visits in one flow</span>
             </div>
           </div>
 
-          <aside className="hero-panel" aria-label="Featured workspace">
-            <div className="hero-panel-top">
-              <span className="pill">Featured listing</span>
-              <span className="pill pill-muted">Public project profile</span>
-            </div>
-
-            <div className="hero-panel-visual">
+          <aside className="hero-showcase" aria-label="Featured workspace">
+            <div className="hero-showcase-frame">
               <Image
                 src={featuredProperty.imageUrl}
                 alt={featuredProperty.name}
                 fill
-                className="hero-panel-image"
-                sizes="(max-width: 1080px) 100vw, 34vw"
+                className="hero-showcase-image"
+                sizes="(max-width: 1080px) 100vw, 48vw"
                 priority
               />
-              <div className={`hero-panel-photo-overlay ${featuredProperty.skin}`} aria-hidden="true" />
+              <div className={`hero-showcase-overlay ${featuredProperty.skin}`} aria-hidden="true" />
 
-              <div className="hero-panel-stage">
-                <div className="hero-property-card">
-                  <p>{featuredProperty.name}</p>
-                  <strong>{featuredProperty.type}</strong>
-                  <span>{featuredProperty.location}</span>
+              <div className="hero-showcase-top">
+                <span className="hero-media-chip">Featured workspace</span>
+                <span className="hero-showcase-pill">{featuredProperty.type}</span>
+              </div>
+
+              <div className="hero-showcase-content">
+                <div className="hero-showcase-card">
+                  <span className="selection-label">Featured property</span>
+                  <strong>{featuredProperty.name}</strong>
+                  <p>{featuredProperty.location}</p>
+
+                  <div className="hero-showcase-meta">
+                    <article>
+                      <small>Availability</small>
+                      <strong>{featuredProperty.availability}</strong>
+                    </article>
+                    <article>
+                      <small>Brochure</small>
+                      <strong>{featuredProperty.brochureUrl ? "Available" : "Page only"}</strong>
+                    </article>
+                  </div>
+
+                  <div className="hero-showcase-amenities">
+                    {heroAmenities.map((amenity) => (
+                      <span key={amenity}>{amenity}</span>
+                    ))}
+                  </div>
+
+                  <div className="hero-showcase-actions">
+                    <button className="button" type="button" onClick={() => selectProperty(featuredProperty.id)}>
+                      Book This Office
+                    </button>
+                    <a
+                      className="button button-secondary"
+                      href={featuredProperty.brochureUrl ?? featuredProperty.sourceUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {featuredProperty.brochureUrl ? "View Brochure" : "Open Details"}
+                    </a>
+                  </div>
                 </div>
-              </div>
-            </div>
 
-            <div className="hero-panel-footer">
-              <div>
-                <small>Project zone</small>
-                <strong>{featuredProperty.zone}</strong>
-              </div>
-              <div>
-                <small>Availability</small>
-                <strong>{featuredProperty.availability}</strong>
+                <div className="hero-showcase-zones">
+                  <p>Popular corridors</p>
+                  <div>
+                    {heroZones.map((zone) => (
+                      <span key={zone}>{zone}</span>
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
           </aside>
@@ -539,87 +525,6 @@ export function OfficeShowcase() {
           </div>
         </section>
       </main>
-
-      <footer className="site-footer">
-        <div className="footer-grid">
-          <section className="footer-column footer-about">
-            <p className="eyebrow footer-eyebrow">The Office On Rent</p>
-            <p className="footer-description">
-              The Office on Rent offers fully-furnished and customizable office spaces for startups,
-              freelancers, and established businesses in Indore. Choose from private cabins,
-              co-working desks, or entire floors, all designed to meet your growing needs.
-            </p>
-
-            <div className="footer-actions">
-              <a className="button" href="tel:+918602129377">
-                Enquiry Now
-              </a>
-              <a
-                className="button button-secondary"
-                href="https://wa.me/918602129377"
-                target="_blank"
-                rel="noreferrer"
-              >
-                WhatsApp
-              </a>
-            </div>
-          </section>
-
-          <section className="footer-column">
-            <h3>Services</h3>
-            <nav className="footer-nav" aria-label="Footer services">
-              {footerServices.map((item) => (
-                <a
-                  key={item.label}
-                  href={item.href}
-                  target={item.href.startsWith("https://") ? "_blank" : undefined}
-                  rel={item.href.startsWith("https://") ? "noreferrer" : undefined}
-                >
-                  {item.label}
-                </a>
-              ))}
-            </nav>
-          </section>
-
-          <section className="footer-column">
-            <h3>Other Links</h3>
-            <nav className="footer-nav" aria-label="Footer links">
-              {footerOtherLinks.map((item) => (
-                <a key={item.label} href={item.href} target="_blank" rel="noreferrer">
-                  {item.label}
-                </a>
-              ))}
-            </nav>
-          </section>
-
-          <section className="footer-column">
-            <h3>Contact</h3>
-            <div className="footer-contact-list">
-              <a href="tel:+918602129377">+91 86021 29377</a>
-              <a href="https://wa.me/918602129377" target="_blank" rel="noreferrer">
-                Chat on WhatsApp
-              </a>
-              <p>Gravity Mall, Plot-27, Mechanic Nagar, Scheme No 54, Indore, Madhya Pradesh 452011</p>
-            </div>
-          </section>
-        </div>
-
-        <div className="footer-bottom">
-          <p>Gravity Mall, Plot-27, Mechanic Nagar, Scheme No 54, Indore, Madhya Pradesh 452011</p>
-          <div className="footer-bottom-links">
-            <span>Terms of Service</span>
-            <a href="https://theofficeonrent.com/privacy-policy/" target="_blank" rel="noreferrer">
-              Privacy Policy
-            </a>
-          </div>
-          <p>
-            Copyright 2025. All rights reserved. Developed &amp; Designed by{" "}
-            <a href="https://zenixtechnology.com/" target="_blank" rel="noreferrer">
-              Zenix Technology
-            </a>
-          </p>
-        </div>
-      </footer>
-    </div>
+    </SiteChrome>
   );
 }
