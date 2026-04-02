@@ -1,7 +1,6 @@
 "use client";
 
 import { FormEvent, startTransition, useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
 import { properties } from "../data/properties";
 
 type Inquiry = {
@@ -29,7 +28,6 @@ function getLocalDateString() {
 }
 
 export function ContactBookingSection() {
-  const searchParams = useSearchParams();
   const [selectedPropertyId, setSelectedPropertyId] = useState("");
   const [latestInquiry, setLatestInquiry] = useState<Inquiry | null>(null);
   const [statusMessage, setStatusMessage] = useState<StatusMessage | null>(null);
@@ -52,14 +50,14 @@ export function ContactBookingSection() {
   }, []);
 
   useEffect(() => {
-    const propertyId = searchParams.get("property") ?? "";
+    const propertyId = new URLSearchParams(window.location.search).get("property") ?? "";
     const matchingProperty = properties.find((property) => property.id === propertyId);
 
     if (matchingProperty) {
       setSelectedPropertyId(matchingProperty.id);
       setStatusMessage(null);
     }
-  }, [searchParams]);
+  }, []);
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();

@@ -1006,6 +1006,91 @@ h3 {
   line-height: 1.72;
 }
 
+.story-grid,
+.policy-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.story-card,
+.policy-card {
+  padding: 26px;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: var(--shadow);
+}
+
+.story-card {
+  display: grid;
+  align-content: start;
+  gap: 14px;
+}
+
+.story-card-meta {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  min-height: 30px;
+  padding: 0 12px;
+  border-radius: 999px;
+  background: rgba(222, 224, 255, 0.72);
+  color: var(--accent);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.story-card h3,
+.policy-card h3 {
+  margin: 0;
+  font-size: 1.28rem;
+  line-height: 1.2;
+}
+
+.story-card p,
+.policy-card p,
+.policy-list {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.75;
+}
+
+.story-card-link {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  min-height: 42px;
+  padding: 0 16px;
+  border-radius: 999px;
+  background: rgba(222, 224, 255, 0.72);
+  color: var(--navy);
+  font-weight: 700;
+  transition: transform 180ms ease, background 180ms ease, color 180ms ease;
+}
+
+.story-card-link:hover,
+.story-card-link:focus-visible {
+  transform: translateY(-1px);
+  background: rgba(78, 134, 255, 0.18);
+  color: var(--accent);
+}
+
+.policy-card {
+  display: grid;
+  gap: 16px;
+}
+
+.policy-list {
+  padding-left: 20px;
+}
+
+.policy-list li + li {
+  margin-top: 10px;
+}
+
 .booking-card {
   display: grid;
   grid-template-columns: minmax(280px, 0.85fr) minmax(0, 1.15fr);
@@ -1112,10 +1197,64 @@ h3 {
   box-shadow: var(--shadow);
 }
 
+.footer-lead {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(340px, 0.9fr);
+  gap: 24px;
+  align-items: start;
+  padding-bottom: 28px;
+  border-bottom: 1px solid rgba(78, 134, 255, 0.14);
+}
+
+.footer-lead-copy h2 {
+  margin: 0;
+  max-width: 14ch;
+  font-size: clamp(2rem, 2.8vw, 3rem);
+  line-height: 0.98;
+}
+
+.footer-lead-copy p {
+  max-width: 52ch;
+  margin: 16px 0 0;
+  color: var(--muted);
+  line-height: 1.75;
+}
+
+.footer-highlight-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.footer-highlight-card,
+.footer-contact-card {
+  border: 1px solid rgba(78, 134, 255, 0.14);
+  box-shadow: 0 12px 28px rgba(10, 13, 49, 0.06);
+}
+
+.footer-highlight-card {
+  display: grid;
+  gap: 8px;
+  padding: 18px;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.82);
+}
+
+.footer-highlight-card strong {
+  font-size: 1rem;
+  color: var(--navy);
+}
+
+.footer-highlight-card span {
+  color: var(--muted);
+  line-height: 1.6;
+}
+
 .footer-grid {
   display: grid;
-  grid-template-columns: 1.35fr repeat(3, minmax(0, 1fr));
+  grid-template-columns: 1.2fr 0.9fr 0.9fr 1.05fr;
   gap: 24px;
+  margin-top: 28px;
 }
 
 .footer-column {
@@ -1131,12 +1270,26 @@ h3 {
   color: var(--navy);
 }
 
+.footer-label {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  min-height: 30px;
+  padding: 0 12px;
+  border-radius: 999px;
+  background: rgba(222, 224, 255, 0.7);
+  color: var(--accent);
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
 .footer-eyebrow {
   color: var(--source-blue);
 }
 
 .footer-description,
-.footer-contact-list p,
 .footer-bottom p,
 .footer-bottom-links span,
 .footer-bottom-links a {
@@ -1152,26 +1305,63 @@ h3 {
   margin-top: 8px;
 }
 
-.footer-nav,
-.footer-contact-list {
+.footer-nav {
   display: grid;
   gap: 10px;
 }
 
-.footer-nav a,
-.footer-contact-list a {
+.footer-nav a {
   color: var(--source-dark);
   transition: color 180ms ease, transform 180ms ease;
 }
 
 .footer-nav a:hover,
 .footer-nav a:focus-visible,
-.footer-contact-list a:hover,
-.footer-contact-list a:focus-visible,
 .footer-bottom a:hover,
 .footer-bottom a:focus-visible {
   color: var(--accent);
   transform: translateX(2px);
+}
+
+.footer-contact-column {
+  gap: 16px;
+}
+
+.footer-contact-cards {
+  display: grid;
+  gap: 12px;
+}
+
+.footer-contact-card {
+  display: grid;
+  gap: 8px;
+  padding: 16px 18px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.82);
+  color: var(--source-dark);
+  transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease, color 180ms ease;
+}
+
+.footer-contact-card small {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.footer-contact-card strong,
+.footer-contact-card p {
+  margin: 0;
+  line-height: 1.6;
+}
+
+.footer-contact-card:hover,
+.footer-contact-card:focus-visible {
+  color: var(--accent);
+  transform: translateY(-2px);
+  border-color: rgba(78, 134, 255, 0.24);
+  box-shadow: 0 16px 30px rgba(10, 13, 49, 0.08);
 }
 
 .footer-bottom {
@@ -1209,6 +1399,7 @@ h3 {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  gap: 24px;
   min-height: 560px;
   padding: 24px;
   overflow: hidden;
@@ -1482,13 +1673,20 @@ h3 {
     grid-template-columns: 1fr 1fr;
   }
 
+  .footer-lead,
+  .footer-highlight-grid {
+    grid-template-columns: 1fr;
+  }
+
   .footer-about,
   .footer-bottom p:last-child {
     grid-column: 1 / -1;
   }
 
   .property-grid,
-  .advantages-grid {
+  .advantages-grid,
+  .story-grid,
+  .policy-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
@@ -1511,6 +1709,8 @@ h3 {
   .metrics-grid,
   .property-grid,
   .advantages-grid,
+  .story-grid,
+  .policy-grid,
   .form-grid,
   .property-metrics,
   .property-actions {
@@ -1543,6 +1743,10 @@ h3 {
   .footer-grid,
   .footer-bottom {
     grid-template-columns: 1fr;
+  }
+
+  .footer-lead-copy h2 {
+    max-width: none;
   }
 
   .footer-bottom-links {
@@ -1655,8 +1859,16 @@ h3 {
     border-radius: 24px;
   }
 
+  .footer-highlight-card,
+  .footer-contact-card {
+    padding: 16px;
+    border-radius: 20px;
+  }
+
   .property-body,
   .advantages-grid article,
+  .story-card,
+  .policy-card,
   .booking-card,
   .filter-panel,
   .site-footer {

@@ -4,12 +4,14 @@ import "./globals.css";
 
 const manrope = Manrope({
   subsets: ["latin"],
-  variable: "--font-body"
+  variable: "--font-body",
+  display: "swap"
 });
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
-  variable: "--font-heading"
+  variable: "--font-heading",
+  display: "swap"
 });
 
 export const metadata: Metadata = {

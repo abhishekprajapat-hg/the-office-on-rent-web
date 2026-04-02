@@ -184,6 +184,7 @@ export function OfficeShowcase() {
                 fill
                 className="hero-showcase-image"
                 sizes="(max-width: 1080px) 100vw, 48vw"
+                quality={74}
                 priority
               />
               <div className={`hero-showcase-overlay ${featuredProperty.skin}`} aria-hidden="true" />
@@ -306,6 +307,7 @@ export function OfficeShowcase() {
                       fill
                       className="property-photo"
                       sizes="(max-width: 820px) 100vw, (max-width: 1080px) 50vw, 33vw"
+                      quality={68}
                     />
                     <div className={`property-photo-overlay ${property.skin}`} aria-hidden="true" />
                     <span className="property-badge">{property.type}</span>

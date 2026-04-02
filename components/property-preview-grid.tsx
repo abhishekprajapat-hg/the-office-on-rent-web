@@ -37,6 +37,7 @@ export function PropertyPreviewGrid({
                 fill
                 className="property-photo"
                 sizes="(max-width: 820px) 100vw, (max-width: 1080px) 50vw, 33vw"
+                quality={68}
               />
               <div className={`property-photo-overlay ${property.skin}`} aria-hidden="true" />
               <span className="property-badge">{property.type}</span>
@@ -82,7 +83,7 @@ export function PropertyPreviewGrid({
               </div>
 
               <div className="property-actions">
-                <Link className="button card-button" href={`/contact?property=${property.id}`}>
+                <Link className="button card-button" href={`/contact?property=${property.id}`} prefetch={false}>
                   Book this office
                 </Link>
                 <a

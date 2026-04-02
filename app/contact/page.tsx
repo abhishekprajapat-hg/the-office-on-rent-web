@@ -1,4 +1,3 @@
-import { Suspense } from "react";
 import { ContactBookingSection } from "../../components/contact-booking-section";
 import { SiteChrome } from "../../components/site-chrome";
 
@@ -71,21 +70,7 @@ export default function ContactPage() {
           </aside>
         </section>
 
-        <Suspense
-          fallback={
-            <section className="booking-section">
-              <div className="booking-card">
-                <div className="booking-copy">
-                  <p className="eyebrow">Contact our team</p>
-                  <h2>Loading enquiry form</h2>
-                  <p>Preparing the booking form for your selected office option.</p>
-                </div>
-              </div>
-            </section>
-          }
-        >
-          <ContactBookingSection />
-        </Suspense>
+        <ContactBookingSection />
       </main>
     </SiteChrome>
   );
