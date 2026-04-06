@@ -1189,6 +1189,12 @@
 }
 
 @media (max-width: 760px) {
+  .heroBackgroundTint {
+    background:
+      linear-gradient(180deg, rgba(240, 246, 253, 0.9) 0%, rgba(238, 244, 252, 0.76) 34%, rgba(235, 241, 250, 0.36) 60%, rgba(233, 238, 246, 0.12) 100%),
+      radial-gradient(circle at 22% 12%, rgba(255, 255, 255, 0.55), transparent 36%);
+  }
+
   .shell {
     width: min(100% - 14px, 1240px);
   }
@@ -1242,25 +1248,42 @@
   }
 
   .heroHeading {
-    margin-top: 18px;
+    margin-top: 14px;
+    padding: 10px 10px 12px;
+    border: 1px solid rgba(170, 191, 214, 0.56);
+    border-radius: 14px;
+    background: rgba(240, 247, 254, 0.58);
+    box-shadow: 0 10px 20px rgba(16, 45, 75, 0.12);
+    backdrop-filter: blur(2px);
   }
 
   .heroHeading h1 {
-    font-size: 1.58rem;
-    line-height: 1.32;
+    font-size: 1.46rem;
+    line-height: 1.26;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.78), 0 4px 10px rgba(15, 44, 72, 0.16);
   }
 
   .heroHeading p {
-    font-size: 1rem;
+    margin-top: 8px;
+    font-size: 0.95rem;
+    color: #1b436b;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7), 0 3px 9px rgba(14, 41, 67, 0.12);
   }
 
   .statsRow {
     flex-wrap: wrap;
-    font-size: 0.98rem;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 10px;
+    font-size: 0.86rem;
   }
 
   .statsRow span {
-    padding: 0 8px;
+    padding: 4px 8px;
+    border: 1px solid rgba(171, 191, 214, 0.62);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.7);
+    font-weight: 600;
   }
 
   .statsRow span + span::before {
@@ -1519,15 +1542,20 @@
   }
 
   .heroHeading h1 {
-    font-size: 1.42rem;
+    font-size: 1.24rem;
   }
 
   .heroHeading p {
-    font-size: 0.94rem;
+    font-size: 0.86rem;
   }
 
   .statsRow {
-    font-size: 0.9rem;
+    gap: 5px;
+    font-size: 0.76rem;
+  }
+
+  .statsRow span {
+    padding: 3px 6px;
   }
 
   .brandLogo {
