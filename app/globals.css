@@ -11,12 +11,11 @@ body {
   margin: 0;
   padding: 0;
   width: 100%;
-  max-width: 100%;
-  overflow-x: hidden;
 }
 
 body {
   min-height: 100vh;
+  overflow-x: hidden;
   font-family: "Segoe UI", Tahoma, Arial, sans-serif;
   background: #e9eef6;
   color: #173c65;
