@@ -1,4 +1,7 @@
-﻿import Image from "next/image";
+"use client";
+
+import { useEffect, useState } from "react";
+import Image from "next/image";
 import { BrandLockup } from "./brand-lockup";
 import styles from "./office-showcase.module.css";
 
@@ -139,6 +142,40 @@ const reviewStats = [
 ];
 
 export function OfficeShowcase() {
+  const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
+  const [modalRequirement, setModalRequirement] = useState("");
+
+  const openDetailsModal = (requirement: string) => {
+    setModalRequirement(requirement);
+    setIsDetailsModalOpen(true);
+  };
+
+  const closeDetailsModal = () => {
+    setIsDetailsModalOpen(false);
+  };
+
+  useEffect(() => {
+    if (!isDetailsModalOpen) {
+      return;
+    }
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        closeDetailsModal();
+      }
+    };
+
+    window.addEventListener("keydown", handleEscape);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", handleEscape);
+    };
+  }, [isDetailsModalOpen]);
+
   const renderTrustedLogos = (prefix: string) => (
     <>
       <img
@@ -300,7 +337,9 @@ export function OfficeShowcase() {
                 <div className={`${styles.cardBody} ${styles[card.tone]}`}>
                   <h3>{card.title}</h3>
                   <p>{card.subtitle}</p>
-                  <a href="#consultation-form">Get Details</a>
+                  <button type="button" onClick={() => openDetailsModal(card.title)}>
+                    Get Details
+                  </button>
                 </div>
               </article>
             ))}
@@ -425,12 +464,64 @@ export function OfficeShowcase() {
           </div>
 
           <div className={styles.contactCard}>
-            <BrandLockup className={styles.footerLogo} />
-            <p className={styles.contactLine}>Indore Office | +91 968-936-1156 | +89-1939-666</p>
-            <p className={styles.emailLine}>info@theofficeonrent.com</p>
+            <div className={styles.contactContent}>
+              <BrandLockup className={styles.footerLogo} />
+              <div className={styles.contactText}>
+                <p className={styles.contactLine}>Indore Office | +91 968-936-1156 | +89-1939-666</p>
+                <p className={styles.emailLine}>info@theofficeonrent.com</p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
+
+      {isDetailsModalOpen ? (
+        <div className={styles.modalOverlay} role="presentation" onClick={closeDetailsModal}>
+          <div
+            className={styles.modalDialog}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="details-modal-title"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <button type="button" className={styles.modalClose} onClick={closeDetailsModal} aria-label="Close form">
+              ×
+            </button>
+            <form
+              className={`${styles.consultForm} ${styles.modalForm}`}
+              onSubmit={(event) => {
+                event.preventDefault();
+                closeDetailsModal();
+              }}
+            >
+              <h2 id="details-modal-title">Get Free Consultation</h2>
+              <input type="text" placeholder="Name" aria-label="Name" />
+              <input type="tel" placeholder="Mobile" aria-label="Mobile" />
+              <select
+                aria-label="Your Requirement"
+                value={modalRequirement}
+                onChange={(event) => setModalRequirement(event.target.value)}
+              >
+                {categoryCards.map((item) => (
+                  <option key={item.title} value={item.title}>
+                    {item.title}
+                  </option>
+                ))}
+              </select>
+              <select aria-label="City" defaultValue="">
+                <option value="" disabled>
+                  City
+                </option>
+                <option>Indore</option>
+                <option>Bhopal</option>
+                <option>Pune</option>
+                <option>Delhi NCR</option>
+              </select>
+              <button type="submit">Get Free Consultation</button>
+            </form>
+          </div>
+        </div>
+      ) : null}
     </main>
   );
 }

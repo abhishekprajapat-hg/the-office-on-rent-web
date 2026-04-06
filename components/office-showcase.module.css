@@ -259,6 +259,55 @@
   transition: transform 160ms ease, filter 160ms ease;
 }
 
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  background: rgba(9, 25, 43, 0.6);
+  backdrop-filter: blur(3px);
+}
+
+.modalDialog {
+  position: relative;
+  width: min(460px, 100%);
+  border-radius: 14px;
+}
+
+.modalClose {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+  width: 32px;
+  height: 32px;
+  border: 1px solid #c6d6e7;
+  border-radius: 50%;
+  background: #ffffff;
+  color: #24476e;
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: transform 160ms ease, filter 160ms ease;
+}
+
+.modalClose:hover,
+.modalClose:focus-visible {
+  transform: scale(1.06);
+  filter: brightness(0.95);
+}
+
+.modalForm {
+  margin: 0;
+}
+
+.modalForm h2 {
+  padding-right: 38px;
+}
+
 .trustedSection {
   padding: 14px 0 15px;
   border-bottom: 1px solid #d4deeb;
@@ -533,7 +582,8 @@
   text-shadow: 0 1px 3px rgba(5, 20, 34, 0.32);
 }
 
-.cardBody a {
+.cardBody a,
+.cardBody button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -549,10 +599,14 @@
   color: #ffffff;
   font-size: 1.15rem;
   font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  appearance: none;
   transition: transform 180ms ease, filter 180ms ease, box-shadow 180ms ease;
 }
 
-.cardBody a::after {
+.cardBody a::after,
+.cardBody button::after {
   content: "\203A";
   font-size: 1.2rem;
   line-height: 1;
@@ -561,14 +615,18 @@
 }
 
 .cardBody a:hover,
-.cardBody a:focus-visible {
+.cardBody a:focus-visible,
+.cardBody button:hover,
+.cardBody button:focus-visible {
   transform: translateY(-1px);
   filter: brightness(1.04);
   box-shadow: 0 10px 20px rgba(6, 22, 39, 0.34);
 }
 
 .cardBody a:hover::after,
-.cardBody a:focus-visible::after {
+.cardBody a:focus-visible::after,
+.cardBody button:hover::after,
+.cardBody button:focus-visible::after {
   transform: translateX(2px);
 }
 
@@ -599,7 +657,8 @@
 @media (prefers-reduced-motion: reduce) {
   .categoryCard,
   .cardImage,
-  .cardBody a {
+  .cardBody a,
+  .cardBody button {
     animation: none;
     transition: none;
   }
@@ -1016,7 +1075,7 @@
 .contactCard {
   position: relative;
   overflow: hidden;
-  width: min(650px, 100%);
+  width: min(700px, 100%);
   margin: 13px auto 0;
   padding: 14px 16px 13px;
   border: 1px solid rgba(178, 200, 221, 0.84);
@@ -1024,12 +1083,23 @@
   background: transparent;
   backdrop-filter: none;
   box-shadow: 0 12px 24px rgba(14, 39, 67, 0.18);
-  text-align: center;
+}
+
+.contactContent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.contactText {
+  text-align: left;
 }
 
 .footerLogo {
-  width: min(315px, 100%);
-  margin: 0 auto;
+  flex-shrink: 0;
+  width: min(248px, 46%);
+  margin: 0;
 }
 
 .contactLine,
@@ -1041,7 +1111,7 @@
 }
 
 .contactLine {
-  margin-top: 5px;
+  margin-top: 0;
 }
 
 .emailLine {
@@ -1260,7 +1330,8 @@
     font-size: 0.78rem;
   }
 
-  .cardBody a {
+  .cardBody a,
+  .cardBody button {
     min-width: 0;
     width: 100%;
     font-size: 0.9rem;
@@ -1381,6 +1452,15 @@
 
   .footerLogo {
     width: min(226px, 100%);
+  }
+
+  .contactContent {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .contactText {
+    text-align: center;
   }
 
   .contactLine,
