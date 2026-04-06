@@ -1,532 +1,232 @@
-"use client";
-
 import Image from "next/image";
-import { FormEvent, startTransition, useDeferredValue, useEffect, useState } from "react";
-import { properties } from "../data/properties";
-import { SiteChrome } from "./site-chrome";
+import { BrandLockup } from "./brand-lockup";
+import styles from "./office-showcase.module.css";
 
-type Inquiry = {
-  fullName: string;
-  email: string;
-  company: string;
-  propertyName: string;
-  teamSize: string;
-  visitDate: string;
-  visitType: string;
-};
-
-type StatusMessage = {
-  variant: "success" | "error";
+type CategoryCard = {
   title: string;
-  body: string;
+  subtitle: string;
+  tone: "teal" | "orange" | "blue";
+  imageUrl: string;
 };
 
-const storageKey = "office-on-rent-latest-inquiry";
-const bookingSectionId = "booking-form";
+const heroStats = ["1000+ Clients", "800+ Deals Closed", "PAN India Network"];
+const trustedBrands = ["BYJU'S", "intel.", "CocaCola", "HDFC BANK", "TCS", "titan eye+", "OYO"];
+const headerImage = "/header-skyline.png";
+const whyPoints = [
+  "Zero-Brokerage Options",
+  "Verified Properties Only",
+  "End-to-End Support",
+  "End-to-End Support",
+  "Strong Negotiation Expertise",
+  "PAN India Network Expertise"
+];
 
-function getLocalDateString() {
-  const now = new Date();
-  const timezoneOffset = now.getTimezoneOffset() * 60 * 1000;
-  return new Date(now.getTime() - timezoneOffset).toISOString().split("T")[0];
-}
+const categoryCards: CategoryCard[] = [
+  {
+    title: "Office Spaces",
+    subtitle: "Ready to Move | Refresh interiors",
+    tone: "teal",
+    imageUrl: "https://theofficeonrent.com/wp-content/uploads/2026/03/WhatsApp-Image-2025-12-11-at-2.20.33-PM-1.jpeg"
+  },
+  {
+    title: "Retail Shops",
+    subtitle: "Top Footfall Locations",
+    tone: "orange",
+    imageUrl: "https://theofficeonrent.com/wp-content/uploads/2026/03/WhatsApp-Image-2025-12-11-at-1.17.44-PM.jpeg"
+  },
+  {
+    title: "Investment Properties",
+    subtitle: "High ROI Opportunities",
+    tone: "blue",
+    imageUrl: "https://theofficeonrent.com/wp-content/uploads/2026/03/WhatsApp-Image-2025-12-11-at-1.17.44-PM-1.jpeg"
+  },
+  {
+    title: "Coworking Spaces",
+    subtitle: "Flexible and Plug-and-Play Offices",
+    tone: "teal",
+    imageUrl: "https://theofficeonrent.com/wp-content/uploads/2026/03/WhatsApp-Image-2025-12-11-at-2.20.33-PM-1.jpeg"
+  }
+];
 
 export function OfficeShowcase() {
-  const [locationFilter, setLocationFilter] = useState("all");
-  const [typeFilter, setTypeFilter] = useState("all");
-  const [brochureFilter, setBrochureFilter] = useState("all");
-  const [selectedPropertyId, setSelectedPropertyId] = useState("");
-  const [latestInquiry, setLatestInquiry] = useState<Inquiry | null>(null);
-  const [statusMessage, setStatusMessage] = useState<StatusMessage | null>(null);
-
-  const deferredLocation = useDeferredValue(locationFilter);
-  const deferredType = useDeferredValue(typeFilter);
-  const deferredBrochure = useDeferredValue(brochureFilter);
-
-  const zones = Array.from(new Set(properties.map((property) => property.zone)));
-  const projectTypes = Array.from(new Set(properties.map((property) => property.type)));
-  const featuredProperty = properties[0];
-  const heroHighlights = [
-    `${properties.length}+ verified office options`,
-    `${zones.length} prime Indore zones`,
-    `${properties.filter((property) => property.brochureUrl).length} brochure-ready projects`
-  ];
-  const heroAmenities = featuredProperty.amenities.slice(0, 3);
-  const heroZones = zones.slice(0, 4);
-  const selectedProperty = properties.find((property) => property.id === selectedPropertyId) ?? null;
-
-  const filteredProperties = properties.filter((property) => {
-    const matchesLocation = deferredLocation === "all" || property.zone === deferredLocation;
-    const matchesType = deferredType === "all" || property.type === deferredType;
-    const matchesBrochure =
-      deferredBrochure === "all" ||
-      (deferredBrochure === "with-brochure" ? Boolean(property.brochureUrl) : !property.brochureUrl);
-
-    return matchesLocation && matchesType && matchesBrochure;
-  });
-
-  useEffect(() => {
-    const storedInquiry = window.localStorage.getItem(storageKey);
-
-    if (!storedInquiry) {
-      return;
-    }
-
-    try {
-      const parsedInquiry = JSON.parse(storedInquiry) as Inquiry;
-      setLatestInquiry(parsedInquiry);
-    } catch {
-      window.localStorage.removeItem(storageKey);
-    }
-  }, []);
-
-  function resetFilters() {
-    setLocationFilter("all");
-    setTypeFilter("all");
-    setBrochureFilter("all");
-  }
-
-  function focusBookingForm() {
-    document.getElementById(bookingSectionId)?.scrollIntoView({
-      behavior: "smooth",
-      block: "start"
-    });
-  }
-
-  function selectProperty(propertyId: string) {
-    setSelectedPropertyId(propertyId);
-    setStatusMessage(null);
-    focusBookingForm();
-  }
-
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-
-    const form = event.currentTarget;
-    const formData = new FormData(form);
-    const propertyId = String(formData.get("property") ?? "");
-    const property = properties.find((item) => item.id === propertyId);
-
-    if (!property) {
-      setStatusMessage({
-        variant: "error",
-        title: "Select a property",
-        body: "Choose an office space before sending your booking request."
-      });
-      return;
-    }
-
-    const inquiry: Inquiry = {
-      fullName: String(formData.get("fullName") ?? ""),
-      email: String(formData.get("email") ?? ""),
-      company: String(formData.get("company") ?? ""),
-      propertyName: property.name,
-      teamSize: String(formData.get("teamSize") ?? ""),
-      visitDate: String(formData.get("visitDate") ?? ""),
-      visitType: String(formData.get("visitType") ?? "")
-    };
-
-    window.localStorage.setItem(storageKey, JSON.stringify(inquiry));
-
-    startTransition(() => {
-      setLatestInquiry(inquiry);
-      setSelectedPropertyId("");
-      setStatusMessage({
-        variant: "success",
-        title: "Booking request saved",
-        body: `${inquiry.fullName}, your request for ${inquiry.propertyName} has been captured for ${inquiry.visitDate}.`
-      });
-    });
-
-    form.reset();
-  }
-
   return (
-    <SiteChrome>
-      <main id="top" className="page-content">
-        <section className="hero-section">
-          <div className="hero-copy">
-            <p className="eyebrow hero-eyebrow">Office On Rent Indore</p>
+    <main className={styles.page}>
+      <section className={styles.heroSection}>
+        <div className={styles.heroBackground} aria-hidden="true">
+          <Image
+            src={headerImage}
+            alt="City skyline"
+            fill
+            priority
+            quality={86}
+            className={styles.heroBackgroundImage}
+            sizes="100vw"
+          />
+          <div className={styles.heroBackgroundTint} />
+        </div>
+
+        <div className={styles.shell}>
+          <header className={styles.topBar}>
+            <BrandLockup className={styles.heroLogo} priority />
+            <div className={styles.callCluster}>
+              <a href="tel:+919831336666" className={`${styles.callButton} ${styles.callLight}`}>
+                <span className={styles.buttonIcon}>Call</span>
+                <span>Call Now</span>
+              </a>
+              <a href="tel:+919831336666" className={`${styles.callButton} ${styles.callGreen}`}>
+                <span className={styles.buttonIcon}>Call</span>
+                <span>+91 983-133-6666</span>
+              </a>
+            </div>
+          </header>
+
+          <div className={styles.heroHeading}>
             <h1>
-              Find your next <span>office space</span> in Indore
+              Find the Perfect <span className={styles.wordTeal}>Office</span>
+              <span className={styles.wordSlash}> / </span>
+              <span className={styles.wordOrange}>Shop</span>
+              <span className={styles.wordSlash}> / </span>
+              <span className={styles.wordBlue}>Coworking Space</span> in Your City
             </h1>
-            <p className="hero-text">
-              Explore workspace options across Indore with clearer property context, brochure-backed
-              listings, and a faster enquiry flow for startups, professionals, and growing teams.
-            </p>
-
-            <div className="hero-actions">
-              <a className="button" href="#properties">
-                Explore Spaces
-              </a>
-              <a className="button button-secondary" href="#booking-form">
-                Book a Visit
-              </a>
-            </div>
-
-            <div className="hero-highlight-list" aria-label="Key highlights">
-              {heroHighlights.map((highlight) => (
-                <span key={highlight}>{highlight}</span>
-              ))}
-            </div>
-
-            <div className="hero-micro-stats">
-              <span>Shortlist by location</span>
-              <span>Compare project types</span>
-              <span>Book visits in one flow</span>
-            </div>
+            <p>Fully Furnished | Ready to Move | Zero Brokerage Options</p>
           </div>
 
-          <aside className="hero-showcase" aria-label="Featured workspace">
-            <div className="hero-showcase-frame">
-              <Image
-                src={featuredProperty.imageUrl}
-                alt={featuredProperty.name}
-                fill
-                className="hero-showcase-image"
-                sizes="(max-width: 1080px) 100vw, 48vw"
-                quality={74}
-                priority
-              />
-              <div className={`hero-showcase-overlay ${featuredProperty.skin}`} aria-hidden="true" />
-
-              <div className="hero-showcase-top">
-                <span className="hero-media-chip">Featured workspace</span>
-                <span className="hero-showcase-pill">{featuredProperty.type}</span>
-              </div>
-
-              <div className="hero-showcase-content">
-                <div className="hero-showcase-card">
-                  <span className="selection-label">Featured property</span>
-                  <strong>{featuredProperty.name}</strong>
-                  <p>{featuredProperty.location}</p>
-
-                  <div className="hero-showcase-meta">
-                    <article>
-                      <small>Availability</small>
-                      <strong>{featuredProperty.availability}</strong>
-                    </article>
-                    <article>
-                      <small>Brochure</small>
-                      <strong>{featuredProperty.brochureUrl ? "Available" : "Page only"}</strong>
-                    </article>
-                  </div>
-
-                  <div className="hero-showcase-amenities">
-                    {heroAmenities.map((amenity) => (
-                      <span key={amenity}>{amenity}</span>
-                    ))}
-                  </div>
-
-                  <div className="hero-showcase-actions">
-                    <button className="button" type="button" onClick={() => selectProperty(featuredProperty.id)}>
-                      Book This Office
-                    </button>
-                    <a
-                      className="button button-secondary"
-                      href={featuredProperty.brochureUrl ?? featuredProperty.sourceUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      {featuredProperty.brochureUrl ? "View Brochure" : "Open Details"}
-                    </a>
-                  </div>
-                </div>
-
-                <div className="hero-showcase-zones">
-                  <p>Popular corridors</p>
-                  <div>
-                    {heroZones.map((zone) => (
-                      <span key={zone}>{zone}</span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </aside>
-        </section>
-
-        <section className="filter-section" id="properties">
-          <div className="section-heading">
-            <div>
-              <p className="eyebrow">Available properties</p>
-              <h2>Filter imported projects before you enquire</h2>
-            </div>
-            <p className="section-note">Showing {filteredProperties.length} public project listings.</p>
+          <div className={styles.statsRow}>
+            {heroStats.map((item) => (
+              <span key={item}>{item}</span>
+            ))}
           </div>
 
-          <div className="filter-panel">
-            <label>
-              Project area
-              <select value={locationFilter} onChange={(event) => setLocationFilter(event.target.value)}>
-                <option value="all">All areas</option>
-                {zones.map((zone) => (
-                  <option key={zone} value={zone}>
-                    {zone}
-                  </option>
-                ))}
+          <div className={styles.heroBody}>
+            <form className={styles.consultForm} id="consultation-form">
+              <h2>Get Free Consultation</h2>
+              <input type="text" placeholder="Name" aria-label="Name" />
+              <input type="tel" placeholder="Mobile" aria-label="Mobile" />
+              <select aria-label="Your Requirement" defaultValue="">
+                <option value="" disabled>
+                  Your Requirement
+                </option>
+                <option>Office</option>
+                <option>Shop</option>
+                <option>Investment</option>
+                <option>Coworking</option>
               </select>
-            </label>
-
-            <label>
-              Project type
-              <select value={typeFilter} onChange={(event) => setTypeFilter(event.target.value)}>
-                <option value="all">All types</option>
-                {projectTypes.map((projectType) => (
-                  <option key={projectType} value={projectType}>
-                    {projectType}
-                  </option>
-                ))}
+              <select aria-label="City" defaultValue="">
+                <option value="" disabled>
+                  City
+                </option>
+                <option>Indore</option>
+                <option>Bhopal</option>
+                <option>Pune</option>
+                <option>Delhi NCR</option>
               </select>
-            </label>
-
-            <label>
-              Brochure status
-              <select value={brochureFilter} onChange={(event) => setBrochureFilter(event.target.value)}>
-                <option value="all">All projects</option>
-                <option value="with-brochure">With brochure</option>
-                <option value="without-brochure">Without brochure</option>
-              </select>
-            </label>
-
-            <button className="button button-secondary filter-reset" type="button" onClick={resetFilters}>
-              Reset filters
-            </button>
-          </div>
-
-          <div className="property-grid">
-            {filteredProperties.length > 0 ? (
-              filteredProperties.map((property) => (
-                <article
-                  className={`property-card ${selectedPropertyId === property.id ? "selected" : ""}`}
-                  key={property.id}
-                >
-                  <div className={`property-visual ${property.skin}`}>
-                    <Image
-                      src={property.imageUrl}
-                      alt={property.name}
-                      fill
-                      className="property-photo"
-                      sizes="(max-width: 820px) 100vw, (max-width: 1080px) 50vw, 33vw"
-                      quality={68}
-                    />
-                    <div className={`property-photo-overlay ${property.skin}`} aria-hidden="true" />
-                    <span className="property-badge">{property.type}</span>
-                    <div className="property-visual-copy">
-                      <small>{property.brochureLabel}</small>
-                      <strong>{property.city}</strong>
-                    </div>
-                  </div>
-
-                  <div className="property-body">
-                    <div className="property-header">
-                      <div>
-                        <h3>{property.name}</h3>
-                        <p>{property.location}</p>
-                      </div>
-                      <div className="property-price">
-                        <strong>{property.availability}</strong>
-                        <span>{property.zone}</span>
-                      </div>
-                    </div>
-
-                    <p className="property-summary">{property.summary}</p>
-
-                    <div className="property-metrics">
-                      <article>
-                        <strong>{property.city}</strong>
-                        <span>City</span>
-                      </article>
-                      <article>
-                        <strong>{property.zone}</strong>
-                        <span>Zone</span>
-                      </article>
-                      <article>
-                        <strong>{property.brochureUrl ? "Available" : "Page only"}</strong>
-                        <span>Brochure</span>
-                      </article>
-                    </div>
-
-                    <div className="amenity-list">
-                      {property.amenities.map((amenity) => (
-                        <span key={amenity}>{amenity}</span>
-                      ))}
-                    </div>
-
-                    <div className="property-actions">
-                      <button className="button card-button" type="button" onClick={() => selectProperty(property.id)}>
-                        Book this office
-                      </button>
-                      <a
-                        className="button button-secondary card-button"
-                        href={property.brochureUrl ?? property.sourceUrl}
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        {property.brochureUrl ? "View brochure" : "Open source page"}
-                      </a>
-                    </div>
-                  </div>
-                </article>
-              ))
-            ) : (
-              <div className="empty-state">
-                <h3>No projects match these filters</h3>
-                <p>Reset the filters to see all imported project listings again.</p>
-              </div>
-            )}
-          </div>
-        </section>
-
-        <section className="advantages-section" id="advantages">
-          <div className="section-heading">
-            <div>
-              <p className="eyebrow">Why teams choose us</p>
-              <h2>Shortlist faster, book with more confidence</h2>
-            </div>
-          </div>
-
-          <div className="advantages-grid">
-            <article>
-              <h3>Public project facts</h3>
-              <p>Project names, locations, amenities, and brochure links are mapped from publicly visible source pages.</p>
-            </article>
-            <article>
-              <h3>Cleaner shortlisting</h3>
-              <p>The imported listings are organized into zones and project types so comparing options is faster.</p>
-            </article>
-            <article>
-              <h3>Property-aware booking</h3>
-              <p>Choose a project and the booking form remembers it automatically before you send your enquiry.</p>
-            </article>
-          </div>
-        </section>
-
-        <section className="booking-section" id={bookingSectionId}>
-          <div className="booking-card">
-            <div className="booking-copy">
-              <p className="eyebrow">Book office space</p>
-              <h2>Send your workspace request</h2>
-              <p>
-                Fill out the booking form to request a tour, ask for project details, and start the
-                conversation for your preferred office location.
-              </p>
-
-              <div className="selected-office-panel">
-                <span className="selection-label">Selected property</span>
-                {selectedProperty ? (
-                  <>
-                    <strong>{selectedProperty.name}</strong>
-                    <p>
-                      {selectedProperty.location} | {selectedProperty.type} | {selectedProperty.availability}
-                    </p>
-                  </>
-                ) : (
-                  <>
-                    <strong>Choose a property card first</strong>
-                    <p>Any office you select above will appear here and in the booking form.</p>
-                  </>
-                )}
-              </div>
-
-              {latestInquiry ? (
-                <div className="latest-inquiry">
-                  <span className="selection-label">Latest saved inquiry</span>
-                  <strong>{latestInquiry.propertyName}</strong>
-                  <p>
-                    {latestInquiry.fullName} from {latestInquiry.company} requested a{" "}
-                    {latestInquiry.visitType.toLowerCase()} for {latestInquiry.visitDate}.
-                  </p>
-                </div>
-              ) : null}
-            </div>
-
-            <form className="booking-form" onSubmit={handleSubmit}>
-              <div className="form-grid">
-                <label>
-                  Full name
-                  <input name="fullName" type="text" placeholder="Aarav Malhotra" required />
-                </label>
-
-                <label>
-                  Work email
-                  <input name="email" type="email" placeholder="team@company.com" required />
-                </label>
-
-                <label>
-                  Company name
-                  <input name="company" type="text" placeholder="Northline Studios" required />
-                </label>
-
-                <label>
-                  Team size
-                  <input name="teamSize" type="number" min="1" max="500" placeholder="24" required />
-                </label>
-
-                <label>
-                  Property
-                  <select
-                    name="property"
-                    value={selectedPropertyId}
-                    onChange={(event) => setSelectedPropertyId(event.target.value)}
-                    required
-                  >
-                    <option value="">Select a property</option>
-                    {properties.map((property) => (
-                      <option key={property.id} value={property.id}>
-                        {property.name} | {property.location}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-
-                <label>
-                  Visit type
-                  <select name="visitType" required>
-                    <option value="">Select visit type</option>
-                    <option value="Guided tour">Guided tour</option>
-                    <option value="Video walkthrough">Video walkthrough</option>
-                    <option value="Layout consultation">Layout consultation</option>
-                  </select>
-                </label>
-              </div>
-
-              <label>
-                Preferred visit date
-                <input name="visitDate" type="date" min={getLocalDateString()} required />
-              </label>
-
-              <label>
-                Additional requirements
-                <textarea
-                  name="requirements"
-                  rows={4}
-                  placeholder="Tell us about your move-in timeline, branding needs, meeting room count, or budget expectations."
-                />
-              </label>
-
-              <label className="checkbox-row">
-                <input name="consent" type="checkbox" required />
-                <span>I agree to be contacted regarding this office space request.</span>
-              </label>
-
-              <button className="button submit-button" type="submit">
-                Send Booking Request
-              </button>
-
-              <p className="form-note">
-                This demo saves the latest inquiry in your browser so the booking flow feels complete.
-              </p>
-
-              {statusMessage ? (
-                <div className={`status-message ${statusMessage.variant}`}>
-                  <strong>{statusMessage.title}</strong>
-                  <p>{statusMessage.body}</p>
-                </div>
-              ) : null}
+              <button type="submit">Get Free Consultation</button>
             </form>
           </div>
-        </section>
-      </main>
-    </SiteChrome>
+        </div>
+      </section>
+
+      <section className={styles.trustedSection}>
+        <div className={styles.shell}>
+          <h2>
+            <span>Trusted by 1000+ Businesses Across India</span>
+          </h2>
+          <div className={styles.brandRow}>
+            {trustedBrands.map((brand) => (
+              <span key={brand}>{brand}</span>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className={styles.categoriesSection}>
+        <div className={styles.shell}>
+          <div className={styles.categoriesGrid}>
+            {categoryCards.map((card) => (
+              <article className={styles.categoryCard} key={card.title}>
+                <div className={styles.cardImageWrap}>
+                  <Image
+                    src={card.imageUrl}
+                    alt={card.title}
+                    fill
+                    quality={80}
+                    className={styles.cardImage}
+                    sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 25vw"
+                  />
+                </div>
+                <div className={`${styles.cardBody} ${styles[card.tone]}`}>
+                  <h3>{card.title}</h3>
+                  <p>{card.subtitle}</p>
+                  <a href="#consultation-form">Get Details</a>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className={styles.whySection}>
+        <div className={styles.shell}>
+          <h2>Why Choose Us?</h2>
+          <ul>
+            {whyPoints.map((item, index) => (
+              <li key={`${item}-${index}`}>{item}</li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      <section className={styles.promoStrip}>
+        <p>Limited Premium Properties Available - Book Your Free Consultation Now!</p>
+      </section>
+
+      <section className={styles.actionSection}>
+        <div className={styles.actionBackground} aria-hidden="true">
+          <Image
+            src={headerImage}
+            alt="City background"
+            fill
+            quality={86}
+            className={styles.actionBackgroundImage}
+            sizes="100vw"
+          />
+          <div className={styles.actionBackgroundOverlay} />
+        </div>
+
+        <div className={styles.shell}>
+          <div className={styles.actionMeta}>
+            <span>Free Site Visit</span>
+            <span>Investment Advice</span>
+            <span>Zero Brokerage Charges</span>
+          </div>
+
+          <div className={styles.actionButtons}>
+            <a className={`${styles.actionButton} ${styles.actionBlue}`} href="tel:+919831336666">
+              <span className={styles.buttonIcon}>Call</span>
+              <span>Call Now</span>
+            </a>
+            <a
+              className={`${styles.actionButton} ${styles.actionGreen}`}
+              href="https://wa.me/919831336666"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <span className={styles.buttonIcon}>Chat</span>
+              <span>WhatsApp</span>
+            </a>
+            <a className={`${styles.actionButton} ${styles.actionOrange}`} href="#consultation-form">
+              <span className={styles.buttonIcon}>Mail</span>
+              <span>Get Options</span>
+            </a>
+          </div>
+
+          <div className={styles.contactCard}>
+            <BrandLockup className={styles.footerLogo} />
+            <p className={styles.contactLine}>Indore Office | +91 968-936-1156 | +89-1939-666</p>
+            <p className={styles.emailLine}>info@theofficeonrent.com</p>
+          </div>
+        </div>
+      </section>
+    </main>
   );
 }

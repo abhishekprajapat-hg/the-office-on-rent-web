@@ -82,18 +82,20 @@ export function PropertyPreviewGrid({
                 ))}
               </div>
 
-              <div className="property-actions">
+              <div className={`property-actions ${property.brochureUrl ? "" : "single"}`.trim()}>
                 <Link className="button card-button" href={`/contact?property=${property.id}`} prefetch={false}>
                   Book this office
                 </Link>
-                <a
-                  className="button button-secondary card-button"
-                  href={property.brochureUrl ?? property.sourceUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  {property.brochureUrl ? "View brochure" : "Open source page"}
-                </a>
+                {property.brochureUrl ? (
+                  <a
+                    className="button button-secondary card-button"
+                    href={property.brochureUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    View brochure
+                  </a>
+                ) : null}
               </div>
             </div>
           </article>
