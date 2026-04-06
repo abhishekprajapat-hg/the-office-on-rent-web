@@ -8,8 +8,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  width: "device-width",
-  initialScale: 1
+  width: 1240
 };
 
 export default function RootLayout({
