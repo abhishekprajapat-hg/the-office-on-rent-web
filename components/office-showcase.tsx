@@ -249,9 +249,14 @@ export function OfficeShowcase() {
                 <span className={styles.buttonIcon}><PhoneIcon /></span>
                 <span>Call Now</span>
               </a>
-              <a href="tel:+919831336666" className={`${styles.callButton} ${styles.callGreen}`}>
-                <span className={styles.buttonIcon}><PhoneIcon /></span>
-                <span>+91 983-133-6666</span>
+              <a
+                href="https://wa.me/919831336666"
+                className={`${styles.callButton} ${styles.callGreen}`}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <span className={styles.buttonIcon}><ChatIcon /></span>
+                <span>WhatsApp</span>
               </a>
             </div>
           </header>

@@ -50,7 +50,7 @@
 }
 
 .heroLogo {
-  width: min(236px, 100%);
+  width: min(208px, 100%);
   height: auto;
 }
 
@@ -1125,5 +1125,467 @@
 
   to {
     transform: translateX(-50%);
+  }
+}
+
+@media (max-width: 1100px) {
+  .shell {
+    width: min(100% - 20px, 1240px);
+  }
+
+  .topBar {
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .heroLogo {
+    width: min(168px, 40%);
+  }
+
+  .callCluster {
+    flex: 1;
+    min-width: 0;
+    justify-content: flex-end;
+    flex-wrap: nowrap;
+    gap: 8px;
+    padding: 5px;
+  }
+
+  .callGreen {
+    min-width: 0;
+  }
+
+  .heroBody {
+    justify-content: center;
+    min-height: 320px;
+  }
+
+  .consultForm {
+    width: min(430px, 100%);
+    margin: 0 auto 12px;
+  }
+
+  .categoriesGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .reviewsLayout {
+    grid-template-columns: 1fr;
+  }
+
+  .reviewSummaryCard {
+    max-width: 520px;
+    margin: 0 auto;
+  }
+
+  .testimonialGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .whyGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .shell {
+    width: min(100% - 14px, 1240px);
+  }
+
+  .topBar {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .heroLogo {
+    width: min(132px, 38%);
+  }
+
+  .callCluster {
+    width: auto;
+    flex: 1;
+    min-width: 0;
+    justify-content: flex-end;
+    flex-wrap: nowrap;
+    gap: 6px;
+    padding: 4px;
+  }
+
+  .callButton {
+    flex: 1 1 0;
+    min-width: 0;
+    min-height: 38px;
+    padding: 0 8px;
+    gap: 6px;
+    font-size: 0.8rem;
+  }
+
+  .callButton .buttonIcon {
+    min-width: 24px;
+    min-height: 22px;
+    padding: 0 5px;
+  }
+
+  .callButton .buttonIcon svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  .callButton span:last-child {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .heroHeading {
+    margin-top: 18px;
+  }
+
+  .heroHeading h1 {
+    font-size: 1.58rem;
+    line-height: 1.32;
+  }
+
+  .heroHeading p {
+    font-size: 1rem;
+  }
+
+  .statsRow {
+    flex-wrap: wrap;
+    font-size: 0.98rem;
+  }
+
+  .statsRow span {
+    padding: 0 8px;
+  }
+
+  .statsRow span + span::before {
+    display: none;
+  }
+
+  .heroBody {
+    display: none;
+  }
+
+  .consultForm {
+    width: min(380px, 100%);
+    padding: 12px;
+  }
+
+  .consultForm h2 {
+    font-size: 1.7rem;
+  }
+
+  .consultForm input,
+  .consultForm select {
+    min-height: 42px;
+    font-size: 0.94rem;
+  }
+
+  .consultForm button {
+    min-height: 44px;
+    font-size: 1.2rem;
+  }
+
+  .trustedSection h2::before,
+  .trustedSection h2::after {
+    width: 13%;
+  }
+
+  .trustedSection h2 span {
+    padding: 0 8px;
+    font-size: 1.04rem;
+  }
+
+  .brandRow {
+    gap: 12px;
+    padding-right: 16px;
+  }
+
+  .brandLogo {
+    height: 32px;
+  }
+
+  .byjusLogo {
+    height: 34px;
+  }
+
+  .hdfcLogo {
+    height: 30px;
+  }
+
+  .tcsLogo {
+    height: 40px;
+  }
+
+  .titanEyeText {
+    font-size: 1.1rem;
+  }
+
+  .oyoLogo {
+    height: 38px;
+  }
+
+  .categoriesGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .cardImageWrap {
+    min-height: 136px;
+  }
+
+  .cardBody h3 {
+    font-size: 1.08rem;
+  }
+
+  .cardBody p {
+    min-height: 0;
+    font-size: 0.78rem;
+  }
+
+  .cardBody a,
+  .cardBody button {
+    min-width: 0;
+    width: 100%;
+    font-size: 0.9rem;
+  }
+
+  .reviewsHeading h2 {
+    font-size: 1.45rem;
+  }
+
+  .reviewsHeading p {
+    font-size: 0.9rem;
+  }
+
+  .reviewSummaryCard {
+    padding: 13px 11px;
+  }
+
+  .reviewScore {
+    font-size: 2rem;
+  }
+
+  .reviewSummaryText {
+    font-size: 0.86rem;
+  }
+
+  .testimonialGrid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .testimonialCard {
+    padding: 12px 10px;
+  }
+
+  .testimonialQuote {
+    min-height: 0;
+    font-size: 0.84rem;
+  }
+
+  .testimonialStars {
+    margin-top: 8px;
+    font-size: 0.92rem;
+  }
+
+  .testimonialName {
+    font-size: 0.9rem;
+  }
+
+  .testimonialRole {
+    font-size: 0.78rem;
+  }
+
+  .whyHeader h2 {
+    font-size: 1.5rem;
+  }
+
+  .whyHeader p {
+    font-size: 0.86rem;
+  }
+
+  .whyHighlights {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .whyGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .whyItem {
+    padding: 10px;
+  }
+
+  .whyItem h3 {
+    font-size: 0.98rem;
+  }
+
+  .whyItem p {
+    font-size: 0.78rem;
+  }
+
+  .promoStrip p {
+    font-size: 1.04rem;
+    line-height: 1.45;
+  }
+
+  .actionMeta {
+    justify-content: center;
+    font-size: 0.9rem;
+    line-height: 1.35;
+    gap: 7px;
+  }
+
+  .actionMeta span {
+    padding: 4px 10px;
+  }
+
+  .actionButtons {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+  }
+
+  .actionButton {
+    min-height: 40px;
+    padding: 0 6px;
+    gap: 4px;
+    font-size: 0.78rem;
+  }
+
+  .actionButton .buttonIcon {
+    min-width: 22px;
+    min-height: 20px;
+    padding: 0 5px;
+  }
+
+  .actionButton .buttonIcon svg {
+    width: 11px;
+    height: 11px;
+  }
+
+  .actionButton span:last-child {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .footerLogo {
+    width: min(220px, 100%);
+  }
+
+  .contactContent {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .contactText {
+    text-align: center;
+  }
+
+  .contactLine,
+  .emailLine {
+    font-size: 0.8rem;
+  }
+
+  .modalOverlay {
+    padding: 12px;
+  }
+}
+
+@media (max-width: 420px) {
+  .heroLogo {
+    width: min(118px, 36%);
+  }
+
+  .callCluster {
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+    padding: 3px;
+  }
+
+  .callButton {
+    width: auto;
+    min-height: 34px;
+    font-size: 0.74rem;
+    padding: 0 6px;
+  }
+
+  .heroHeading h1 {
+    font-size: 1.42rem;
+  }
+
+  .heroHeading p {
+    font-size: 0.94rem;
+  }
+
+  .statsRow {
+    font-size: 0.9rem;
+  }
+
+  .brandLogo {
+    height: 28px;
+  }
+
+  .byjusLogo {
+    height: 30px;
+  }
+
+  .hdfcLogo {
+    height: 26px;
+  }
+
+  .tcsLogo {
+    height: 34px;
+  }
+
+  .titanEyeText {
+    font-size: 0.94rem;
+  }
+
+  .oyoLogo {
+    height: 32px;
+  }
+
+  .categoriesGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .actionMeta {
+    font-size: 0.82rem;
+  }
+
+  .actionButton {
+    min-height: 36px;
+    padding: 0 4px;
+    gap: 3px;
+    font-size: 0.72rem;
+  }
+
+  .actionButton .buttonIcon {
+    min-width: 20px;
+    min-height: 18px;
+    padding: 0 4px;
+  }
+
+  .actionButton .buttonIcon svg {
+    width: 10px;
+    height: 10px;
+  }
+
+  .contactLine,
+  .emailLine {
+    font-size: 0.76rem;
+  }
+
+  .modalOverlay {
+    padding: 8px;
   }
 }
