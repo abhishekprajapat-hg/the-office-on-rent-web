@@ -1,17 +1,9 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { BrandLockup } from "./brand-lockup";
 import styles from "./office-showcase.module.css";
-
-function PhoneIcon() {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.9 19.9 0 0 1 3 5.18 2 2 0 0 1 5 3h3a2 2 0 0 1 2 1.72c.12.86.33 1.69.62 2.49a2 2 0 0 1-.45 2.11l-1.27 1.27a16 16 0 0 0 6.91 6.91l1.27-1.27a2 2 0 0 1 2.11-.45c.8.29 1.63.5 2.49.62A2 2 0 0 1 22 16.92z" />
-    </svg>
-  );
-}
 
 function ChatIcon() {
   return (
@@ -40,7 +32,6 @@ type CategoryCard = {
 
 type Testimonial = {
   name: string;
-  role: string;
   quote: string;
   rating: number;
 };
@@ -50,33 +41,33 @@ type WhyPoint = {
   detail: string;
 };
 
-const heroStats = ["1000+ Clients", "800+ Deals Closed", "PAN India Network"];
+const heroStats = ["500+ Clients", "250+ Deals Closed", "Zero Brokerage options"];
 const headerImage = "/header-skyline.png";
 const footerImage = "/footer.png";
 const whyPoints: WhyPoint[] = [
   {
     title: "Zero-Brokerage Options",
-    detail: "No hidden brokerage, only transparent and direct commercial terms."
+    detail: "No Brokerage for commercial properties, ensuring cost-effective solutions for businesses."
   },
   {
-    title: "Verified Properties Only",
-    detail: "Every listing is verified for ownership, location and commercial readiness."
+    title: "Property Management",
+    detail: "End-to-end property management services for hassle-free operations."
   },
   {
-    title: "End-to-End Support",
-    detail: "From requirement mapping to agreement signing, we manage the full process."
+    title: "Property Development",
+    detail: "Strategic property development initiatives for optimal returns."
   },
   {
-    title: "Strong Negotiation Expertise",
-    detail: "Our team helps secure better rentals, lock-in clauses and fit-out flexibility."
+    title: "Co-Working Spaces",
+    detail: "Flexible, fully-equipped co-working spaces and plug-and-play offices for growing teams."
   },
   {
-    title: "PAN India Network Expertise",
-    detail: "Reliable inventory access across major business hubs and emerging corridors."
+    title: "Commercial Investments",
+    detail: "High ROI commercial investment opportunities with expert guidance."
   },
   {
-    title: "Fast Turnaround",
-    detail: "Quick shortlist and site visits so your team can move in without delays."
+    title: "Leaseing Services",
+    detail: "Comprehensive leasing services for office spaces, retail showrooms and commercial properties."
   }
 ];
 
@@ -84,19 +75,19 @@ const categoryCards: CategoryCard[] = [
   {
     title: "Office Spaces",
     badge: "Ready Inventory",
-    subtitle: "Ready to Move | Refresh interiors",
+    subtitle: "Non-Furnished | Furnished Options",
     tone: "teal",
     imageUrl: "https://theofficeonrent.com/wp-content/uploads/2026/03/WhatsApp-Image-2025-12-11-at-2.20.33-PM-1.jpeg"
   },
   {
-    title: "Retail Shops",
-    badge: "High Footfall",
-    subtitle: "Top Footfall Locations",
+    title: "Retail Showrooms",
+    badge: "Prime Locations",
+    subtitle: "Showrooms | Shops",
     tone: "orange",
     imageUrl: "https://theofficeonrent.com/wp-content/uploads/2026/03/WhatsApp-Image-2025-12-11-at-1.17.44-PM.jpeg"
   },
   {
-    title: "Investment Properties",
+    title: "Commercial Investments",
     badge: "Top ROI",
     subtitle: "High ROI Opportunities",
     tone: "blue",
@@ -114,40 +105,48 @@ const categoryCards: CategoryCard[] = [
 const testimonialCards: Testimonial[] = [
   {
     name: "Rohit Mehta",
-    role: "Founder, FinEdge Advisors",
     quote:
       "Team ne 5 din ke andar hume ready office shortlist karke final deal close kara di. Process smooth tha and zero brokerage exactly as promised.",
     rating: 5
   },
   {
     name: "Aditi Sharma",
-    role: "Operations Head, RetailNest",
     quote:
       "Location recommendations bahut accurate the. Humare retail outlet ke liye prime footfall zone mila and negotiation bhi strong handle kiya gaya.",
     rating: 5
   },
   {
     name: "Vivek Bansal",
-    role: "Regional Manager, CoreTech Solutions",
     quote:
       "PAN India expansion me inki support genuinely end-to-end thi. Site visits se agreement tak har step pe quick response mila.",
     rating: 5
   }
 ];
 
-const reviewStats = [
-  { label: "Average Rating", value: "4.9 / 5" },
-  { label: "Verified Reviews", value: "350+" },
-  { label: "Client Satisfaction", value: "98%" }
-];
-
 export function OfficeShowcase() {
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
   const [modalRequirement, setModalRequirement] = useState("");
 
+  const scrollToFooter = () => {
+    const footerSection = document.getElementById("footer-enquiry");
+    if (footerSection) {
+      footerSection.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
   const openDetailsModal = (requirement: string) => {
     setModalRequirement(requirement);
     setIsDetailsModalOpen(true);
+  };
+
+  const scrollToConsultation = () => {
+    const isMobile = window.matchMedia("(max-width: 760px)").matches;
+    const desktopForm = document.getElementById("consultation-form");
+    const mobileForm = document.getElementById("consultation-form-mobile");
+    const targetForm = isMobile ? mobileForm ?? desktopForm : desktopForm ?? mobileForm;
+    if (targetForm) {
+      targetForm.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
   };
 
   const closeDetailsModal = () => {
@@ -185,20 +184,7 @@ export function OfficeShowcase() {
         className={`${styles.brandLogo} ${styles.byjusLogo}`}
         loading="lazy"
       />
-      <img
-        key={`${prefix}-intel`}
-        src="/brand-logos/intel.svg"
-        alt="intel logo"
-        className={`${styles.brandLogo} ${styles.intelLogo}`}
-        loading="lazy"
-      />
-      <img
-        key={`${prefix}-cocacola`}
-        src="/brand-logos/coca-cola.svg"
-        alt="Coca-Cola logo"
-        className={`${styles.brandLogo} ${styles.cocaColaLogo}`}
-        loading="lazy"
-      />
+      
       <img
         key={`${prefix}-hdfc`}
         src="/brand-logos/hdfc-bank.svg"
@@ -206,20 +192,55 @@ export function OfficeShowcase() {
         className={`${styles.brandLogo} ${styles.hdfcLogo}`}
         loading="lazy"
       />
-      <div key={`${prefix}-tcstitan`} className={styles.tcsTitanGroup}>
-        <img
-          src="/brand-logos/tcs.svg"
-          alt="TCS logo"
-          className={`${styles.brandLogo} ${styles.tcsLogo}`}
-          loading="lazy"
-        />
-        <span className={styles.titanEyeText}>Titan eye+</span>
-      </div>
+      <img
+        key={`${prefix}-efc`}
+        src="/brand-logos/EspLogo.svg"
+        alt="EFC logo"
+        className={`${styles.brandLogo} ${styles.efcLogo}`}
+        loading="lazy"
+      />
+      
+      <img
+        key={`${prefix}-ksolves`}
+        src="/brand-logos/kslogo-ai.webp"
+        alt="Ksolves logo"
+        className={`${styles.brandLogo} ${styles.ksolvesLogo}`}
+        loading="lazy"
+      />
+      
       <img
         key={`${prefix}-oyo`}
         src="/brand-logos/oyo.png"
         alt="OYO logo"
         className={`${styles.brandLogo} ${styles.oyoLogo}`}
+        loading="lazy"
+      />
+      <img
+        key={`${prefix}-Nippon Mutual Fund`}
+        src="/brand-logos/nippon-mutual-fund.png"
+        alt="Nippon Mutual Fund logo"
+        className={`${styles.brandLogo} ${styles.nipponMutualFundLogo}`}
+        loading="lazy"
+      />
+      <img
+        key={`${prefix}-Bandhan Mutual Fund`}
+        src="/brand-logos/bandhan-mutual-fund.svg"
+        alt="Bandhan Mutual Fund logo"
+        className={`${styles.brandLogo} ${styles.bandhanMutualFundLogo}`}
+        loading="lazy"
+      />
+      <img
+        key={`${prefix}-Ugro Finance`}
+        src="/brand-logos/ugro-finance.webp"
+        alt="Ugro Finance logo"
+        className={`${styles.brandLogo} ${styles.ugroFinanceLogo}`}
+        loading="lazy"
+      />
+      <img
+        key={`${prefix}-Century Ply`}
+        src="/brand-logos/century-ply.png"
+        alt="Century Ply logo"
+        className={`${styles.brandLogo} ${styles.centuryPlyLogo}`}
         loading="lazy"
       />
     </>
@@ -245,31 +266,29 @@ export function OfficeShowcase() {
           <header className={styles.topBar}>
             <BrandLockup className={styles.heroLogo} priority />
             <div className={styles.callCluster}>
-              <a href="tel:+919831336666" className={`${styles.callButton} ${styles.callLight}`}>
-                <span className={styles.buttonIcon}><PhoneIcon /></span>
-                <span>Call Now</span>
-              </a>
               <a
-                href="https://wa.me/919831336666"
-                className={`${styles.callButton} ${styles.callGreen}`}
-                target="_blank"
-                rel="noreferrer"
+                href="#footer-enquiry"
+                className={`${styles.callButton} ${styles.enquireButton}`}
+                onClick={(event) => {
+                  event.preventDefault();
+                  scrollToFooter();
+                }}
               >
-                <span className={styles.buttonIcon}><ChatIcon /></span>
-                <span>WhatsApp</span>
+                <span className={styles.buttonIcon}><MailIcon /></span>
+                <span>Enquire Now</span>
               </a>
             </div>
           </header>
 
           <div className={styles.heroHeading}>
             <h1>
-              Find the Perfect <span className={styles.wordTeal}>Office</span>
+              Find the Perfect <span className={styles.wordOrange}>Office</span>
               <span className={styles.wordSlash}> / </span>
-              <span className={styles.wordOrange}>Shop</span>
+              <span className={styles.wordTeal}>Showrooms</span>
               <span className={styles.wordSlash}> / </span>
-              <span className={styles.wordBlue}>Coworking Space</span> in Your City
+              <span className={styles.wordOrange}>Coworking Space</span> in Indore
             </h1>
-            <p>Fully Furnished | Ready to Move | Zero Brokerage Options</p>
+            <p>Fully Furnished | Non-Furnished |Investment Options</p>
           </div>
 
           <div className={styles.statsRow}>
@@ -310,7 +329,7 @@ export function OfficeShowcase() {
       <section className={styles.trustedSection}>
         <div className={styles.shell}>
           <h2>
-            <span>Trusted by 1000+ Businesses Across India</span>
+            <span>Trusted by 500+ Businesses</span>
           </h2>
           <div className={styles.brandMarquee}>
             <div className={styles.brandTrack}>
@@ -320,6 +339,35 @@ export function OfficeShowcase() {
               </div>
             </div>
           </div>
+        </div>
+      </section>
+
+      <section className={styles.mobileConsultSection}>
+        <div className={styles.shell}>
+          <form className={`${styles.consultForm} ${styles.mobileConsultForm}`} id="consultation-form-mobile">
+            <h2>Get Free Consultation</h2>
+            <input type="text" placeholder="Name" aria-label="Name" />
+            <input type="tel" placeholder="Mobile" aria-label="Mobile" />
+            <select aria-label="Your Requirement" defaultValue="">
+              <option value="" disabled>
+                Your Requirement
+              </option>
+              <option>Office</option>
+              <option>Shop</option>
+              <option>Investment</option>
+              <option>Coworking</option>
+            </select>
+            <select aria-label="City" defaultValue="">
+              <option value="" disabled>
+                City
+              </option>
+              <option>Indore</option>
+              <option>Bhopal</option>
+              <option>Pune</option>
+              <option>Delhi NCR</option>
+            </select>
+            <button type="submit">Get Free Consultation</button>
+          </form>
         </div>
       </section>
 
@@ -355,23 +403,17 @@ export function OfficeShowcase() {
       <section className={styles.reviewsSection}>
         <div className={styles.shell}>
           <div className={styles.reviewsHeading}>
-            <h2>Client Testimonials and Reviews</h2>
-            <p>Real feedback from businesses who found their ideal office with us.</p>
+            <h2>Client Testimonials</h2>
+            <p>Feedback from businesses we helped with offices, showrooms and coworking spaces.</p>
           </div>
 
           <div className={styles.reviewsLayout}>
             <aside className={styles.reviewSummaryCard}>
               <p className={styles.reviewScore}>4.9</p>
               <p className={styles.reviewStars}>{"\u2605\u2605\u2605\u2605\u2605"}</p>
-              <p className={styles.reviewSummaryText}>Based on 350+ verified client reviews</p>
-              <ul className={styles.reviewStatList}>
-                {reviewStats.map((item) => (
-                  <li key={item.label}>
-                    <span>{item.label}</span>
-                    <strong>{item.value}</strong>
-                  </li>
-                ))}
-              </ul>
+              <p className={styles.reviewSummaryText}>
+                Trusted by growing teams for fast shortlisting, strong negotiation and hassle-free closure.
+              </p>
             </aside>
 
             <div className={styles.testimonialGrid}>
@@ -380,7 +422,6 @@ export function OfficeShowcase() {
                   <p className={styles.testimonialQuote}>"{item.quote}"</p>
                   <p className={styles.testimonialStars}>{"\u2605".repeat(item.rating)}</p>
                   <p className={styles.testimonialName}>{item.name}</p>
-                  <p className={styles.testimonialRole}>{item.role}</p>
                 </article>
               ))}
             </div>
@@ -395,20 +436,7 @@ export function OfficeShowcase() {
             <p>Built for speed, trust and long-term business value.</p>
           </div>
 
-          <div className={styles.whyHighlights}>
-            <div>
-              <strong>1000+</strong>
-              <span>Clients Served</span>
-            </div>
-            <div>
-              <strong>800+</strong>
-              <span>Deals Closed</span>
-            </div>
-            <div>
-              <strong>PAN India</strong>
-              <span>Market Network</span>
-            </div>
-          </div>
+  
 
           <ul className={styles.whyGrid}>
             {whyPoints.map((item) => (
@@ -428,7 +456,7 @@ export function OfficeShowcase() {
         <p>Limited Premium Properties Available - Book Your Free Consultation Now!</p>
       </section>
 
-      <section className={styles.actionSection}>
+      <section className={styles.actionSection} id="footer-enquiry">
         <div className={styles.actionBackground} aria-hidden="true">
           <Image
             src={footerImage}
@@ -449,10 +477,6 @@ export function OfficeShowcase() {
           </div>
 
           <div className={styles.actionButtons}>
-            <a className={`${styles.actionButton} ${styles.actionBlue}`} href="tel:+919831336666">
-              <span className={styles.buttonIcon}><PhoneIcon /></span>
-              <span>Call Now</span>
-            </a>
             <a
               className={`${styles.actionButton} ${styles.actionGreen}`}
               href="https://wa.me/919831336666"
@@ -462,7 +486,14 @@ export function OfficeShowcase() {
               <span className={styles.buttonIcon}><ChatIcon /></span>
               <span>WhatsApp</span>
             </a>
-            <a className={`${styles.actionButton} ${styles.actionOrange}`} href="#consultation-form">
+            <a
+              className={`${styles.actionButton} ${styles.actionOrange}`}
+              href="#consultation-form"
+              onClick={(event) => {
+                event.preventDefault();
+                scrollToConsultation();
+              }}
+            >
               <span className={styles.buttonIcon}><MailIcon /></span>
               <span>Get Options</span>
             </a>
@@ -472,8 +503,33 @@ export function OfficeShowcase() {
             <div className={styles.contactContent}>
               <BrandLockup className={styles.footerLogo} />
               <div className={styles.contactText}>
-                <p className={styles.contactLine}>Indore Office | +91 968-936-1156 | +89-1939-666</p>
-                <p className={styles.emailLine}>info@theofficeonrent.com</p>
+                <p className={styles.contactHeading}>Direct Enquiry Contacts</p>
+                <div className={styles.contactRows}>
+                  <p className={styles.contactRow}>
+                    <span className={styles.contactLabel}>Commercial</span>
+                    <a className={styles.contactValue} href="tel:+919111832003">
+                      +919111832003
+                    </a>
+                  </p>
+                  <p className={styles.contactRow}>
+                    <span className={styles.contactLabel}>Coworking</span>
+                    <a className={styles.contactValue} href="tel:+917909702003">
+                      +917909702003
+                    </a>
+                  </p>
+                  <p className={styles.contactRow}>
+                    <span className={styles.contactLabel}>Investment</span>
+                    <a className={styles.contactValue} href="tel:+919522682003">
+                      +919522682003
+                    </a>
+                  </p>
+                </div>
+                <p className={styles.emailLine}>
+                  <span className={styles.contactLabel}>Email</span>
+                  <a className={styles.contactValue} href="mailto:theofficeonrent.ws@gmail.con">
+                    theofficeonrent.ws.@gmail.con
+                  </a>
+                </p>
               </div>
             </div>
           </div>

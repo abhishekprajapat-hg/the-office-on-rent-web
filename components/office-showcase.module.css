@@ -57,12 +57,13 @@
 .callCluster {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 6px;
-  border: 1px solid #c8d7e6;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.92);
-  box-shadow: 0 8px 18px rgba(14, 39, 67, 0.1);
+  justify-content: flex-end;
+  gap: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
 }
 
 .callButton {
@@ -125,6 +126,51 @@
   min-width: 250px;
   background: linear-gradient(180deg, #2fa646 0%, #227f39 100%);
   color: #ffffff;
+}
+
+.enquireButton {
+  position: relative;
+  overflow: hidden;
+  min-width: 240px;
+  min-height: 48px;
+  padding: 0 24px;
+  border: 1px solid #e6a357;
+  border-radius: 999px;
+  background: linear-gradient(145deg, #ffbc58 0%, #f58a2b 48%, #db6016 100%);
+  box-shadow: 0 10px 22px rgba(181, 96, 22, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  color: #ffffff;
+  font-size: 1.02rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+}
+
+.enquireButton::after {
+  content: "";
+  position: absolute;
+  left: -42%;
+  top: 0;
+  width: 30%;
+  height: 100%;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0));
+  transform: skewX(-18deg);
+  transition: left 340ms ease;
+}
+
+.enquireButton .buttonIcon {
+  min-width: 32px;
+  min-height: 24px;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.enquireButton:hover,
+.enquireButton:focus-visible {
+  filter: brightness(1.04);
+}
+
+.enquireButton:hover::after,
+.enquireButton:focus-visible::after {
+  left: 124%;
 }
 
 .heroHeading {
@@ -382,38 +428,16 @@
   height: 46px;
 }
 
-.intelLogo {
-  height: 42px;
-}
-
-.cocaColaLogo {
-  height: 40px;
-}
-
 .hdfcLogo {
   height: 38px;
 }
 
-.tcsLogo {
-  height: 52px;
-}
-
-.tcsTitanGroup {
-  display: flex;
-  align-items: flex-end;
-  gap: 5px;
-}
-
-.titanEyeText {
-  margin-bottom: 2px;
-  font-size: 2.05rem;
-  line-height: 1;
-  font-weight: 600;
-  color: #303a48;
-}
-
 .oyoLogo {
   height: 52px;
+}
+
+.mobileConsultSection {
+  display: none;
 }
 
 .categoriesSection {
@@ -665,7 +689,7 @@
 }
 
 .reviewsSection {
-  padding: 12px 0 8px;
+  padding: 8px 0 6px;
 }
 
 .reviewsHeading {
@@ -674,127 +698,102 @@
 
 .reviewsHeading h2 {
   margin: 0;
-  font-size: clamp(1.7rem, 2.6vw, 2.6rem);
+  font-size: clamp(1.52rem, 2.2vw, 2.16rem);
   color: #1a446f;
 }
 
 .reviewsHeading p {
-  margin: 7px 0 0;
+  margin: 5px 0 0;
   color: #385b7f;
-  font-size: clamp(0.96rem, 1.35vw, 1.16rem);
+  font-size: clamp(0.88rem, 1.1vw, 1rem);
   font-weight: 500;
 }
 
 .reviewsLayout {
   display: grid;
   grid-template-columns: minmax(250px, 300px) minmax(0, 1fr);
-  gap: 14px;
-  margin-top: 14px;
+  gap: 10px;
+  margin-top: 10px;
+  align-items: start;
 }
 
 .reviewSummaryCard {
-  padding: 16px 14px;
+  padding: 10px 9px;
   border: 1px solid #c9d9ea;
-  border-radius: 14px;
+  border-radius: 11px;
   background:
     radial-gradient(circle at 14% 14%, rgba(255, 255, 255, 0.36), transparent 44%),
     linear-gradient(160deg, #255f96 0%, #1d4d7b 58%, #163d63 100%);
   box-shadow: 0 10px 20px rgba(16, 42, 70, 0.2);
   color: #ffffff;
+  min-height: 112px;
 }
 
 .reviewScore {
   margin: 0;
-  font-size: clamp(2.3rem, 4vw, 3.2rem);
+  font-size: clamp(1.82rem, 2.8vw, 2.28rem);
   line-height: 1;
   font-weight: 800;
 }
 
 .reviewStars {
-  margin: 6px 0 0;
+  margin: 3px 0 0;
   letter-spacing: 0.06em;
   color: #ffcc4d;
-  font-size: 1.18rem;
+  font-size: 0.94rem;
 }
 
 .reviewSummaryText {
-  margin: 8px 0 0;
+  margin: 5px 0 0;
   color: rgba(255, 255, 255, 0.92);
-  font-size: 0.95rem;
+  font-size: 0.8rem;
   font-weight: 500;
-}
-
-.reviewStatList {
-  margin: 13px 0 0;
-  padding: 0;
-  list-style: none;
-  display: grid;
-  gap: 8px;
-}
-
-.reviewStatList li {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  padding: 8px 10px;
-  border: 1px solid rgba(255, 255, 255, 0.26);
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.reviewStatList span {
-  color: rgba(255, 255, 255, 0.88);
-  font-size: 0.9rem;
-  font-weight: 500;
-}
-
-.reviewStatList strong {
-  color: #ffffff;
-  font-size: 1rem;
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .testimonialGrid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px;
+  gap: 8px;
+  align-items: start;
 }
 
 .testimonialCard {
-  padding: 14px 13px 13px;
+  padding: 10px 9px;
   border: 1px solid #cddceb;
-  border-radius: 13px;
+  border-radius: 11px;
   background: linear-gradient(180deg, #fdfefe 0%, #f1f6fb 100%);
   box-shadow: 0 10px 20px rgba(17, 44, 72, 0.1);
+  min-height: 112px;
 }
 
 .testimonialQuote {
   margin: 0;
   color: #264b72;
-  font-size: 0.95rem;
-  line-height: 1.55;
-  min-height: 106px;
+  font-size: 0.84rem;
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .testimonialStars {
-  margin: 10px 0 0;
+  margin: 6px 0 0;
   color: #f2b01f;
   letter-spacing: 0.06em;
-  font-size: 1rem;
+  font-size: 0.84rem;
 }
 
 .testimonialName {
-  margin: 9px 0 0;
+  margin: 5px 0 0;
   color: #163e67;
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 700;
-}
-
-.testimonialRole {
-  margin: 2px 0 0;
-  color: #537396;
-  font-size: 0.86rem;
-  font-weight: 600;
 }
 
 .whySection {
@@ -1010,7 +1009,7 @@
 
 .actionButtons {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px;
   width: min(920px, 100%);
   margin: 11px auto 0;
@@ -1093,7 +1092,10 @@
 }
 
 .contactText {
+  display: grid;
+  gap: 6px;
   text-align: left;
+  width: min(420px, 100%);
 }
 
 .footerLogo {
@@ -1102,20 +1104,59 @@
   margin: 0;
 }
 
-.contactLine,
+.contactHeading {
+  margin: 0;
+  color: #35597d;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.contactRows {
+  display: grid;
+  gap: 5px;
+}
+
+.contactRow,
 .emailLine {
   margin: 0;
-  color: #173f67;
-  font-size: clamp(0.84rem, 1.12vw, 1.06rem);
-  font-weight: 600;
-}
-
-.contactLine {
-  margin-top: 0;
+  display: grid;
+  grid-template-columns: 112px minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  padding: 6px 8px;
+  border: 1px solid rgba(163, 186, 209, 0.66);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.34);
 }
 
 .emailLine {
-  margin-top: 2px;
+  border-style: dashed;
+  background: rgba(255, 255, 255, 0.27);
+}
+
+.contactLabel {
+  color: #173f67;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.contactValue {
+  color: #173f67;
+  font-size: clamp(0.82rem, 1.02vw, 0.95rem);
+  font-weight: 700;
+  line-height: 1.2;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+
+.contactValue:hover,
+.contactValue:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 @keyframes logosSlide {
@@ -1148,8 +1189,8 @@
     min-width: 0;
     justify-content: flex-end;
     flex-wrap: nowrap;
-    gap: 8px;
-    padding: 5px;
+    gap: 0;
+    padding: 0;
   }
 
   .callGreen {
@@ -1217,8 +1258,8 @@
     min-width: 0;
     justify-content: flex-end;
     flex-wrap: nowrap;
-    gap: 6px;
-    padding: 4px;
+    gap: 0;
+    padding: 0;
   }
 
   .callButton {
@@ -1294,6 +1335,16 @@
     display: none;
   }
 
+  .mobileConsultSection {
+    display: block;
+    padding: 8px 0 6px;
+  }
+
+  .mobileConsultForm {
+    width: min(520px, 100%);
+    margin: 0 auto;
+  }
+
   .consultForm {
     width: min(380px, 100%);
     padding: 12px;
@@ -1341,14 +1392,6 @@
     height: 30px;
   }
 
-  .tcsLogo {
-    height: 40px;
-  }
-
-  .titanEyeText {
-    font-size: 1.1rem;
-  }
-
   .oyoLogo {
     height: 38px;
   }
@@ -1387,42 +1430,44 @@
   }
 
   .reviewSummaryCard {
-    padding: 13px 11px;
+    padding: 10px 9px;
   }
 
   .reviewScore {
-    font-size: 2rem;
+    font-size: 1.82rem;
   }
 
   .reviewSummaryText {
-    font-size: 0.86rem;
+    font-size: 0.78rem;
+    line-height: 1.3;
   }
 
   .testimonialGrid {
     grid-template-columns: 1fr;
-    gap: 10px;
+    gap: 8px;
   }
 
   .testimonialCard {
-    padding: 12px 10px;
+    padding: 10px 9px;
   }
 
   .testimonialQuote {
     min-height: 0;
-    font-size: 0.84rem;
+    font-size: 0.8rem;
+    line-height: 1.32;
+    -webkit-line-clamp: 3;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 
   .testimonialStars {
-    margin-top: 8px;
-    font-size: 0.92rem;
+    margin-top: 6px;
+    font-size: 0.84rem;
   }
 
   .testimonialName {
-    font-size: 0.9rem;
-  }
-
-  .testimonialRole {
-    font-size: 0.78rem;
+    font-size: 0.86rem;
   }
 
   .whyHeader h2 {
@@ -1471,7 +1516,7 @@
   }
 
   .actionButtons {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 6px;
   }
 
@@ -1509,11 +1554,28 @@
   }
 
   .contactText {
-    text-align: center;
+    width: 100%;
+    gap: 5px;
+    text-align: left;
   }
 
-  .contactLine,
+  .contactHeading {
+    text-align: center;
+    font-size: 0.72rem;
+  }
+
+  .contactRow,
   .emailLine {
+    grid-template-columns: 1fr;
+    gap: 2px;
+    padding: 7px 8px;
+  }
+
+  .contactLabel {
+    font-size: 0.66rem;
+  }
+
+  .contactValue {
     font-size: 0.8rem;
   }
 
@@ -1530,8 +1592,8 @@
   .callCluster {
     flex-direction: row;
     align-items: center;
-    gap: 5px;
-    padding: 3px;
+    gap: 0;
+    padding: 0;
   }
 
   .callButton {
@@ -1570,14 +1632,6 @@
     height: 26px;
   }
 
-  .tcsLogo {
-    height: 34px;
-  }
-
-  .titanEyeText {
-    font-size: 0.94rem;
-  }
-
   .oyoLogo {
     height: 32px;
   }
@@ -1608,9 +1662,16 @@
     height: 10px;
   }
 
-  .contactLine,
-  .emailLine {
-    font-size: 0.76rem;
+  .contactHeading {
+    font-size: 0.68rem;
+  }
+
+  .contactLabel {
+    font-size: 0.62rem;
+  }
+
+  .contactValue {
+    font-size: 0.74rem;
   }
 
   .modalOverlay {

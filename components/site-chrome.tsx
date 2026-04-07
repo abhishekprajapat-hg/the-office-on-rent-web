@@ -86,10 +86,6 @@ export function SiteChrome({ children }: SiteChromeProps) {
           <section className="footer-column footer-contact-column">
             <h3>Contact</h3>
             <div className="footer-contact-cards">
-              <a className="footer-contact-card" href="tel:+918602129377">
-                <small>Call us</small>
-                <strong>+91 86021 29377</strong>
-              </a>
               <a
                 className="footer-contact-card"
                 href="https://wa.me/918602129377"
