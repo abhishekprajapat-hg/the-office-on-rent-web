@@ -1247,10 +1247,26 @@
 }
 
 @media (max-width: 760px) {
+  .heroSection {
+    min-height: 480px;
+    padding-bottom: 10px;
+  }
+
+  .heroBackgroundImage {
+    object-position: center 48%;
+    opacity: 1;
+  }
+
   .heroBackgroundTint {
     background:
-      linear-gradient(180deg, rgba(240, 246, 253, 0.9) 0%, rgba(238, 244, 252, 0.76) 34%, rgba(235, 241, 250, 0.36) 60%, rgba(233, 238, 246, 0.12) 100%),
-      radial-gradient(circle at 22% 12%, rgba(255, 255, 255, 0.55), transparent 36%);
+      linear-gradient(
+        180deg,
+        rgba(240, 246, 253, 0.46) 0%,
+        rgba(238, 244, 252, 0.34) 34%,
+        rgba(235, 241, 250, 0.18) 60%,
+        rgba(233, 238, 246, 0.08) 100%
+      ),
+      radial-gradient(circle at 22% 12%, rgba(255, 255, 255, 0.24), transparent 36%);
   }
 
   .shell {
@@ -1266,7 +1282,7 @@
   }
 
   .heroLogo {
-    width: min(132px, 38%);
+    width: min(154px, 44%);
   }
 
   .callCluster {
@@ -1282,21 +1298,48 @@
   .callButton {
     flex: 1 1 0;
     min-width: 0;
-    min-height: 38px;
-    padding: 0 8px;
-    gap: 6px;
-    font-size: 0.8rem;
+    min-height: 36px;
+    padding: 0 7px;
+    gap: 5px;
+    font-size: 0.76rem;
   }
 
   .callButton .buttonIcon {
-    min-width: 24px;
-    min-height: 22px;
-    padding: 0 5px;
+    min-width: 22px;
+    min-height: 20px;
+    padding: 0 4px;
   }
 
   .callButton .buttonIcon svg {
-    width: 12px;
-    height: 12px;
+    width: 11px;
+    height: 11px;
+  }
+
+  .enquireButton {
+    flex: 0 0 auto;
+    width: auto;
+    min-width: 144px;
+    max-width: 168px;
+    min-height: 32px;
+    padding: 0 10px;
+    border-color: rgba(120, 194, 208, 0.92);
+    background: rgb(10, 127, 150);
+    box-shadow: 0 6px 12px rgba(10, 127, 150, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+    font-size: 0.67rem;
+    font-weight: 800;
+    letter-spacing: 0.01em;
+  }
+
+  .enquireButton .buttonIcon {
+    min-width: 18px;
+    min-height: 16px;
+    background: rgba(255, 255, 255, 0.24);
+    border: 1px solid rgba(255, 255, 255, 0.32);
+  }
+
+  .enquireButton .buttonIcon svg {
+    width: 8px;
+    height: 8px;
   }
 
   .callButton span:last-child {
@@ -1310,8 +1353,8 @@
     padding: 10px 10px 12px;
     border: 1px solid rgba(170, 191, 214, 0.56);
     border-radius: 14px;
-    background: rgba(240, 247, 254, 0.58);
-    box-shadow: 0 10px 20px rgba(16, 45, 75, 0.12);
+    background: rgba(240, 247, 254, 0.26);
+    box-shadow: 0 8px 16px rgba(16, 45, 75, 0.1);
     backdrop-filter: blur(2px);
   }
 
@@ -1333,6 +1376,7 @@
     justify-content: center;
     gap: 6px;
     margin-top: 10px;
+    margin-bottom: 58px;
     font-size: 0.86rem;
   }
 
@@ -1340,7 +1384,7 @@
     padding: 4px 8px;
     border: 1px solid rgba(171, 191, 214, 0.62);
     border-radius: 999px;
-    background: rgba(255, 255, 255, 0.7);
+    background: rgba(255, 255, 255, 0.48);
     font-weight: 600;
   }
 
@@ -1593,6 +1637,12 @@
     padding: 7px 8px;
   }
 
+  .contactRow {
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    gap: 8px;
+  }
+
   .contactLabel {
     font-size: 0.66rem;
   }
@@ -1607,8 +1657,12 @@
 }
 
 @media (max-width: 420px) {
+  .heroSection {
+    min-height: 440px;
+  }
+
   .heroLogo {
-    width: min(118px, 36%);
+    width: min(132px, 42%);
   }
 
   .callCluster {
@@ -1620,9 +1674,28 @@
 
   .callButton {
     width: auto;
-    min-height: 34px;
-    font-size: 0.74rem;
-    padding: 0 6px;
+    min-height: 32px;
+    font-size: 0.7rem;
+    padding: 0 5px;
+  }
+
+  .enquireButton {
+    min-width: 132px;
+    max-width: 150px;
+    min-height: 30px;
+    padding: 0 8px;
+    font-size: 0.62rem;
+    box-shadow: 0 6px 12px rgba(177, 96, 25, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.24);
+  }
+
+  .enquireButton .buttonIcon {
+    min-width: 16px;
+    min-height: 14px;
+  }
+
+  .enquireButton .buttonIcon svg {
+    width: 7px;
+    height: 7px;
   }
 
   .heroHeading h1 {

@@ -17,8 +17,8 @@ const structuredData = {
   "@type": "RealEstateAgent",
   name: "The Office On Rent Workspace",
   url: siteUrl,
-  logo: `${siteUrl}/logo-wide.png`,
-  image: [`${siteUrl}/logo-wide.png`, `${siteUrl}/header-skyline.png`],
+  logo: `${siteUrl}/logo-rent-only.png`,
+  image: [`${siteUrl}/logo-rent-only.png`, `${siteUrl}/header-skyline.png`],
   description:
     "The Office On Rent Workspace helps businesses find furnished and non-furnished office spaces, showrooms, shops, coworking spaces and commercial investment options in Indore.",
   telephone: "+91-9111832003",

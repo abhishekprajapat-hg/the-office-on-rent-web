@@ -85,28 +85,29 @@ const footerImage = "/footer.png";
 const whyPoints: WhyPoint[] = [
   {
     title: "Zero-Brokerage Options",
-    detail: "No Brokerage for commercial properties, ensuring cost-effective solutions for businesses."
+    detail: "No Brokerage if you opt for co-working spaces and Zero-Brokerage for 5 years agrement and three years locking period"
   },
   {
-    title: "Property Management",
-    detail: "End-to-end property management services for hassle-free operations."
+    title: "Leaseing Services",
+    detail: "Comprehensive leasing services for office spaces, retail showrooms and commercial properties."
   },
   {
-    title: "Property Development",
-    detail: "Strategic property development initiatives for optimal returns."
-  },
-  {
-    title: "Co-Working Spaces",
-    detail: "Flexible, fully-equipped co-working spaces and plug-and-play offices for growing teams."
+    title: "Co-Working Aliance",
+    detail: "Allied with 65+ co-working spaces for plug-and-play offices."
   },
   {
     title: "Commercial Investments",
     detail: "High ROI commercial investment opportunities with expert guidance."
   },
   {
-    title: "Leaseing Services",
-    detail: "Comprehensive leasing services for office spaces, retail showrooms and commercial properties."
+    title: "Property Management",
+    detail: "Maximize your rental income and minimize your stress with our expert, full-service property management. We handle everything from tenant screening to 24/7 maintenance, ensuring your investment thrives while you relax."
+  },
+  {
+    title: "Property Development",
+    detail: "Turn raw potential into profitable reality with our comprehensive, end-to-end property development services. We seamlessly navigate the complexities of planning, design, and construction to bring outstanding projects to life."
   }
+  
 ];
 
 const categoryCards: CategoryCard[] = [
@@ -681,7 +682,7 @@ export function OfficeShowcase() {
           <div className={styles.actionMeta}>
             <span>Free Site Visit</span>
             <span>Investment Advice</span>
-            <span>Zero Brokerage Charges</span>
+            <span>Zero Brokerage Options</span>
           </div>
 
           <div className={styles.actionButtons}>
@@ -714,19 +715,19 @@ export function OfficeShowcase() {
                 <p className={styles.contactHeading}>Direct Enquiry Contacts</p>
                 <div className={styles.contactRows}>
                   <p className={styles.contactRow}>
-                    <span className={styles.contactLabel}>Commercial</span>
+                    <span className={styles.contactLabel}>Commercial -</span>
                     <a className={styles.contactValue} href="tel:+919111832003">
                       +919111832003
                     </a>
                   </p>
                   <p className={styles.contactRow}>
-                    <span className={styles.contactLabel}>Coworking</span>
+                    <span className={styles.contactLabel}>Coworking -</span>
                     <a className={styles.contactValue} href="tel:+917909702003">
                       +917909702003
                     </a>
                   </p>
                   <p className={styles.contactRow}>
-                    <span className={styles.contactLabel}>Investment</span>
+                    <span className={styles.contactLabel}>Investment -</span>
                     <a className={styles.contactValue} href="tel:+919522682003">
                       +919522682003
                     </a>

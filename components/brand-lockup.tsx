@@ -10,7 +10,7 @@ export function BrandLockup({ className = "", priority = false }: BrandLockupPro
 
   return (
     <Image
-      src="/logo-wide.png"
+      src="/logo-rent-only.png"
       alt="The Office On Rent"
       width={220}
       height={108}

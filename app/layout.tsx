@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     locale: "en_IN",
     images: [
       {
-        url: "/logo-wide.png",
+        url: "/logo-rent-only.png",
         width: 1000,
         height: 490,
         alt: "The Office On Rent Workspace logo"
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: defaultTitle,
     description: defaultDescription,
-    images: ["/logo-wide.png"]
+    images: ["/logo-rent-only.png"]
   },
   robots: {
     index: true,
