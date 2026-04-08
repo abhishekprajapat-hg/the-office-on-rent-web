@@ -71,8 +71,13 @@ const requirementByCardTitle: Record<string, RequirementOption> = {
 };
 
 const consultationWhatsappNumber = "919111832003";
+const requirementsWithoutPurpose: RequirementOption[] = ["Commercial investment", "coworking"];
 
 const getMinimumAmount = (purpose: PurposeValue) => (purpose ? minimumAmountByPurpose[purpose].toString() : "");
+const isPurposeRequired = (requirement: RequirementValue) =>
+  !requirementsWithoutPurpose.some(
+    (value) => value.toLowerCase() === requirement.trim().toLowerCase()
+  );
 
 const heroStats = ["500+ Clients", "250+ Deals Closed", "Zero Brokerage options"];
 const headerImage = "/header-skyline.png";
@@ -204,12 +209,15 @@ export function OfficeShowcase() {
   ) => {
     event.preventDefault();
 
+    const purposeRequired = isPurposeRequired(selectedRequirement);
+    const purpose = purposeRequired ? selectedPurpose : "";
+
     const formData = new FormData(event.currentTarget);
     const name = formData.get("name")?.toString().trim() ?? "";
     const mobile = formData.get("mobile")?.toString().trim() ?? "";
     const city = formData.get("city")?.toString().trim() ?? "";
-    const maxAmount = formData.get("maximumAmount")?.toString().trim() ?? "";
-    const minAmount = selectedPurpose ? getMinimumAmount(selectedPurpose) : "";
+    const maxAmount = purposeRequired ? formData.get("maximumAmount")?.toString().trim() ?? "" : "";
+    const minAmount = purpose ? getMinimumAmount(purpose) : "";
 
     const whatsappLines = [
       "New Free Consultation Enquiry",
@@ -217,9 +225,9 @@ export function OfficeShowcase() {
       `Name: ${name || "Not provided"}`,
       `Mobile: ${mobile || "Not provided"}`,
       `Requirement: ${selectedRequirement || "Not selected"}`,
-      `Purpose: ${selectedPurpose || "Not selected"}`,
-      `Minimum Amount: ${minAmount || "Not selected"}`,
-      `Maximum Amount: ${maxAmount || "Not provided"}`,
+      `Purpose: ${purposeRequired ? purpose || "Not selected" : "Not required"}`,
+      `Minimum Amount: ${purposeRequired ? minAmount || "Not selected" : "Not required"}`,
+      `Maximum Amount: ${purposeRequired ? maxAmount || "Not provided" : "Not required"}`,
       `City: ${city || "Not selected"}`
     ];
 
@@ -392,7 +400,14 @@ export function OfficeShowcase() {
                 name="requirement"
                 aria-label="Your Requirement"
                 value={desktopRequirement}
-                onChange={(event) => setDesktopRequirement(event.target.value as RequirementValue)}
+                onChange={(event) => {
+                  const nextRequirement = event.target.value as RequirementValue;
+                  setDesktopRequirement(nextRequirement);
+                  if (!isPurposeRequired(nextRequirement)) {
+                    setDesktopPurpose("");
+                    setDesktopMaxAmount("");
+                  }
+                }}
               >
                 <option value="" disabled>
                   Your Requirement
@@ -403,25 +418,28 @@ export function OfficeShowcase() {
                   </option>
                 ))}
               </select>
-              <select
-                name="purpose"
-                aria-label="Purpose"
-                value={desktopPurpose}
-                onChange={(event) => {
-                  setDesktopPurpose(event.target.value as PurposeValue);
-                  setDesktopMaxAmount("");
-                }}
-              >
-                <option value="" disabled>
-                  Purpose
-                </option>
-                {purposeOptions.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
+              {isPurposeRequired(desktopRequirement) ? (
+                <select
+                  className={styles.purposeField}
+                  name="purpose"
+                  aria-label="Purpose"
+                  value={desktopPurpose}
+                  onChange={(event) => {
+                    setDesktopPurpose(event.target.value as PurposeValue);
+                    setDesktopMaxAmount("");
+                  }}
+                >
+                  <option value="" disabled>
+                    Purpose
                   </option>
-                ))}
-              </select>
-              {desktopPurpose ? (
+                  {purposeOptions.map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
+              ) : null}
+              {isPurposeRequired(desktopRequirement) && desktopPurpose ? (
                 <div className={styles.amountRow}>
                   <input
                     type="number"
@@ -487,7 +505,14 @@ export function OfficeShowcase() {
               name="requirement"
               aria-label="Your Requirement"
               value={mobileRequirement}
-              onChange={(event) => setMobileRequirement(event.target.value as RequirementValue)}
+              onChange={(event) => {
+                const nextRequirement = event.target.value as RequirementValue;
+                setMobileRequirement(nextRequirement);
+                if (!isPurposeRequired(nextRequirement)) {
+                  setMobilePurpose("");
+                  setMobileMaxAmount("");
+                }
+              }}
             >
               <option value="" disabled>
                 Your Requirement
@@ -498,25 +523,28 @@ export function OfficeShowcase() {
                 </option>
               ))}
             </select>
-            <select
-              name="purpose"
-              aria-label="Purpose"
-              value={mobilePurpose}
-              onChange={(event) => {
-                setMobilePurpose(event.target.value as PurposeValue);
-                setMobileMaxAmount("");
-              }}
-            >
-              <option value="" disabled>
-                Purpose
-              </option>
-              {purposeOptions.map((option) => (
-                <option key={option} value={option}>
-                  {option}
+            {isPurposeRequired(mobileRequirement) ? (
+              <select
+                className={styles.purposeField}
+                name="purpose"
+                aria-label="Purpose"
+                value={mobilePurpose}
+                onChange={(event) => {
+                  setMobilePurpose(event.target.value as PurposeValue);
+                  setMobileMaxAmount("");
+                }}
+              >
+                <option value="" disabled>
+                  Purpose
                 </option>
-              ))}
-            </select>
-            {mobilePurpose ? (
+                {purposeOptions.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+            ) : null}
+            {isPurposeRequired(mobileRequirement) && mobilePurpose ? (
               <div className={styles.amountRow}>
                 <input
                   type="number"
@@ -739,7 +767,14 @@ export function OfficeShowcase() {
                 name="requirement"
                 aria-label="Your Requirement"
                 value={modalRequirement}
-                onChange={(event) => setModalRequirement(event.target.value as RequirementValue)}
+                onChange={(event) => {
+                  const nextRequirement = event.target.value as RequirementValue;
+                  setModalRequirement(nextRequirement);
+                  if (!isPurposeRequired(nextRequirement)) {
+                    setModalPurpose("");
+                    setModalMaxAmount("");
+                  }
+                }}
               >
                 <option value="" disabled>
                   Your Requirement
@@ -750,25 +785,28 @@ export function OfficeShowcase() {
                   </option>
                 ))}
               </select>
-              <select
-                name="purpose"
-                aria-label="Purpose"
-                value={modalPurpose}
-                onChange={(event) => {
-                  setModalPurpose(event.target.value as PurposeValue);
-                  setModalMaxAmount("");
-                }}
-              >
-                <option value="" disabled>
-                  Purpose
-                </option>
-                {purposeOptions.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
+              {isPurposeRequired(modalRequirement) ? (
+                <select
+                  className={styles.purposeField}
+                  name="purpose"
+                  aria-label="Purpose"
+                  value={modalPurpose}
+                  onChange={(event) => {
+                    setModalPurpose(event.target.value as PurposeValue);
+                    setModalMaxAmount("");
+                  }}
+                >
+                  <option value="" disabled>
+                    Purpose
                   </option>
-                ))}
-              </select>
-              {modalPurpose ? (
+                  {purposeOptions.map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
+              ) : null}
+              {isPurposeRequired(modalRequirement) && modalPurpose ? (
                 <div className={styles.amountRow}>
                   <input
                     type="number"

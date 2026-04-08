@@ -293,10 +293,21 @@
   background-repeat: no-repeat;
 }
 
+.purposeField {
+  width: 100%;
+}
+
 .amountRow {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 9px;
+}
+
+.consultForm:has(select[name="requirement"] option[value="Commercial investment"]:checked) .purposeField,
+.consultForm:has(select[name="requirement"] option[value="coworking"]:checked) .purposeField,
+.consultForm:has(select[name="requirement"] option[value="Commercial investment"]:checked) .amountRow,
+.consultForm:has(select[name="requirement"] option[value="coworking"]:checked) .amountRow {
+  display: none;
 }
 
 .consultForm button {
