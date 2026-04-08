@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import { useEffect, useState } from "react";
+import { type FormEvent, useEffect, useState } from "react";
 import Image from "next/image";
 import { BrandLockup } from "./brand-lockup";
 import styles from "./office-showcase.module.css";
@@ -40,6 +40,39 @@ type WhyPoint = {
   title: string;
   detail: string;
 };
+
+const requirementOptions = [
+  "Office Space furnished",
+  "Office Space Non- Furnished",
+  "Showrooms / shops",
+  "Commercial investment",
+  "coworking"
+] as const;
+
+const purposeOptions = ["Rent", "Sale", "Purchase", "Lease"] as const;
+
+type RequirementOption = (typeof requirementOptions)[number];
+type RequirementValue = RequirementOption | "";
+type PurposeOption = (typeof purposeOptions)[number];
+type PurposeValue = PurposeOption | "";
+
+const minimumAmountByPurpose: Record<PurposeOption, number> = {
+  Rent: 30000,
+  Sale: 5000000,
+  Purchase: 5000000,
+  Lease: 100000
+};
+
+const requirementByCardTitle: Record<string, RequirementOption> = {
+  "Office Spaces": "Office Space furnished",
+  "Retail Showrooms": "Showrooms / shops",
+  "Commercial Investments": "Commercial investment",
+  "Coworking Spaces": "coworking"
+};
+
+const consultationWhatsappNumber = "919111832003";
+
+const getMinimumAmount = (purpose: PurposeValue) => (purpose ? minimumAmountByPurpose[purpose].toString() : "");
 
 const heroStats = ["500+ Clients", "250+ Deals Closed", "Zero Brokerage options"];
 const headerImage = "/header-skyline.png";
@@ -125,7 +158,15 @@ const testimonialCards: Testimonial[] = [
 
 export function OfficeShowcase() {
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
-  const [modalRequirement, setModalRequirement] = useState("");
+  const [desktopRequirement, setDesktopRequirement] = useState<RequirementValue>("");
+  const [desktopPurpose, setDesktopPurpose] = useState<PurposeValue>("");
+  const [desktopMaxAmount, setDesktopMaxAmount] = useState("");
+  const [mobileRequirement, setMobileRequirement] = useState<RequirementValue>("");
+  const [mobilePurpose, setMobilePurpose] = useState<PurposeValue>("");
+  const [mobileMaxAmount, setMobileMaxAmount] = useState("");
+  const [modalRequirement, setModalRequirement] = useState<RequirementValue>("");
+  const [modalPurpose, setModalPurpose] = useState<PurposeValue>("");
+  const [modalMaxAmount, setModalMaxAmount] = useState("");
 
   const scrollToFooter = () => {
     const footerSection = document.getElementById("footer-enquiry");
@@ -135,7 +176,9 @@ export function OfficeShowcase() {
   };
 
   const openDetailsModal = (requirement: string) => {
-    setModalRequirement(requirement);
+    setModalRequirement(requirementByCardTitle[requirement] ?? requirementOptions[0]);
+    setModalPurpose("");
+    setModalMaxAmount("");
     setIsDetailsModalOpen(true);
   };
 
@@ -151,6 +194,45 @@ export function OfficeShowcase() {
 
   const closeDetailsModal = () => {
     setIsDetailsModalOpen(false);
+  };
+
+  const submitConsultationForm = (
+    event: FormEvent<HTMLFormElement>,
+    source: "Desktop Form" | "Mobile Form" | "Details Modal",
+    selectedRequirement: RequirementValue,
+    selectedPurpose: PurposeValue
+  ) => {
+    event.preventDefault();
+
+    const formData = new FormData(event.currentTarget);
+    const name = formData.get("name")?.toString().trim() ?? "";
+    const mobile = formData.get("mobile")?.toString().trim() ?? "";
+    const city = formData.get("city")?.toString().trim() ?? "";
+    const maxAmount = formData.get("maximumAmount")?.toString().trim() ?? "";
+    const minAmount = selectedPurpose ? getMinimumAmount(selectedPurpose) : "";
+
+    const whatsappLines = [
+      "New Free Consultation Enquiry",
+      `Source: ${source}`,
+      `Name: ${name || "Not provided"}`,
+      `Mobile: ${mobile || "Not provided"}`,
+      `Requirement: ${selectedRequirement || "Not selected"}`,
+      `Purpose: ${selectedPurpose || "Not selected"}`,
+      `Minimum Amount: ${minAmount || "Not selected"}`,
+      `Maximum Amount: ${maxAmount || "Not provided"}`,
+      `City: ${city || "Not selected"}`
+    ];
+
+    const whatsappUrl = `https://wa.me/${consultationWhatsappNumber}?text=${encodeURIComponent(whatsappLines.join("\n"))}`;
+    const whatsappWindow = window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+
+    if (!whatsappWindow) {
+      window.location.href = whatsappUrl;
+    }
+
+    if (source === "Details Modal") {
+      closeDetailsModal();
+    }
   };
 
   useEffect(() => {
@@ -298,20 +380,69 @@ export function OfficeShowcase() {
           </div>
 
           <div className={styles.heroBody}>
-            <form className={styles.consultForm} id="consultation-form">
+            <form
+              className={styles.consultForm}
+              id="consultation-form"
+              onSubmit={(event) => submitConsultationForm(event, "Desktop Form", desktopRequirement, desktopPurpose)}
+            >
               <h2>Get Free Consultation</h2>
-              <input type="text" placeholder="Name" aria-label="Name" />
-              <input type="tel" placeholder="Mobile" aria-label="Mobile" />
-              <select aria-label="Your Requirement" defaultValue="">
+              <input type="text" name="name" placeholder="Name" aria-label="Name" />
+              <input type="tel" name="mobile" placeholder="Mobile" aria-label="Mobile" />
+              <select
+                name="requirement"
+                aria-label="Your Requirement"
+                value={desktopRequirement}
+                onChange={(event) => setDesktopRequirement(event.target.value as RequirementValue)}
+              >
                 <option value="" disabled>
                   Your Requirement
                 </option>
-                <option>Office</option>
-                <option>Shop</option>
-                <option>Investment</option>
-                <option>Coworking</option>
+                {requirementOptions.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
               </select>
-              <select aria-label="City" defaultValue="">
+              <select
+                name="purpose"
+                aria-label="Purpose"
+                value={desktopPurpose}
+                onChange={(event) => {
+                  setDesktopPurpose(event.target.value as PurposeValue);
+                  setDesktopMaxAmount("");
+                }}
+              >
+                <option value="" disabled>
+                  Purpose
+                </option>
+                {purposeOptions.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+              {desktopPurpose ? (
+                <div className={styles.amountRow}>
+                  <input
+                    type="number"
+                    name="minimumAmount"
+                    placeholder="Minimum Amount"
+                    aria-label="Minimum Amount"
+                    value={getMinimumAmount(desktopPurpose)}
+                    readOnly
+                  />
+                  <input
+                    type="number"
+                    name="maximumAmount"
+                    placeholder="Maximum Amount"
+                    aria-label="Maximum Amount"
+                    min={getMinimumAmount(desktopPurpose)}
+                    value={desktopMaxAmount}
+                    onChange={(event) => setDesktopMaxAmount(event.target.value)}
+                  />
+                </div>
+              ) : null}
+              <select name="city" aria-label="City" defaultValue="">
                 <option value="" disabled>
                   City
                 </option>
@@ -344,20 +475,69 @@ export function OfficeShowcase() {
 
       <section className={styles.mobileConsultSection}>
         <div className={styles.shell}>
-          <form className={`${styles.consultForm} ${styles.mobileConsultForm}`} id="consultation-form-mobile">
+          <form
+            className={`${styles.consultForm} ${styles.mobileConsultForm}`}
+            id="consultation-form-mobile"
+            onSubmit={(event) => submitConsultationForm(event, "Mobile Form", mobileRequirement, mobilePurpose)}
+          >
             <h2>Get Free Consultation</h2>
-            <input type="text" placeholder="Name" aria-label="Name" />
-            <input type="tel" placeholder="Mobile" aria-label="Mobile" />
-            <select aria-label="Your Requirement" defaultValue="">
+            <input type="text" name="name" placeholder="Name" aria-label="Name" />
+            <input type="tel" name="mobile" placeholder="Mobile" aria-label="Mobile" />
+            <select
+              name="requirement"
+              aria-label="Your Requirement"
+              value={mobileRequirement}
+              onChange={(event) => setMobileRequirement(event.target.value as RequirementValue)}
+            >
               <option value="" disabled>
                 Your Requirement
               </option>
-              <option>Office</option>
-              <option>Shop</option>
-              <option>Investment</option>
-              <option>Coworking</option>
+              {requirementOptions.map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
             </select>
-            <select aria-label="City" defaultValue="">
+            <select
+              name="purpose"
+              aria-label="Purpose"
+              value={mobilePurpose}
+              onChange={(event) => {
+                setMobilePurpose(event.target.value as PurposeValue);
+                setMobileMaxAmount("");
+              }}
+            >
+              <option value="" disabled>
+                Purpose
+              </option>
+              {purposeOptions.map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
+            {mobilePurpose ? (
+              <div className={styles.amountRow}>
+                <input
+                  type="number"
+                  name="minimumAmount"
+                  placeholder="Minimum Amount"
+                  aria-label="Minimum Amount"
+                  value={getMinimumAmount(mobilePurpose)}
+                  readOnly
+                />
+                <input
+                  type="number"
+                  name="maximumAmount"
+                  placeholder="Maximum Amount"
+                  aria-label="Maximum Amount"
+                  min={getMinimumAmount(mobilePurpose)}
+                  value={mobileMaxAmount}
+                  onChange={(event) => setMobileMaxAmount(event.target.value)}
+                />
+              </div>
+            ) : null}
+            <select name="city" aria-label="City" defaultValue="">
               <option value="" disabled>
                 City
               </option>
@@ -479,7 +659,7 @@ export function OfficeShowcase() {
           <div className={styles.actionButtons}>
             <a
               className={`${styles.actionButton} ${styles.actionGreen}`}
-              href="https://wa.me/919831336666"
+              href={`https://wa.me/${consultationWhatsappNumber}`}
               target="_blank"
               rel="noreferrer"
             >
@@ -526,8 +706,8 @@ export function OfficeShowcase() {
                 </div>
                 <p className={styles.emailLine}>
                   <span className={styles.contactLabel}>Email</span>
-                  <a className={styles.contactValue} href="mailto:theofficeonrent.ws@gmail.con">
-                    theofficeonrent.ws.@gmail.con
+                  <a className={styles.contactValue} href="mailto:theofficeonrent.ws@gmail.com">
+                    theofficeonrent.ws@gmail.com
                   </a>
                 </p>
               </div>
@@ -550,26 +730,66 @@ export function OfficeShowcase() {
             </button>
             <form
               className={`${styles.consultForm} ${styles.modalForm}`}
-              onSubmit={(event) => {
-                event.preventDefault();
-                closeDetailsModal();
-              }}
+              onSubmit={(event) => submitConsultationForm(event, "Details Modal", modalRequirement, modalPurpose)}
             >
               <h2 id="details-modal-title">Get Free Consultation</h2>
-              <input type="text" placeholder="Name" aria-label="Name" />
-              <input type="tel" placeholder="Mobile" aria-label="Mobile" />
+              <input type="text" name="name" placeholder="Name" aria-label="Name" />
+              <input type="tel" name="mobile" placeholder="Mobile" aria-label="Mobile" />
               <select
+                name="requirement"
                 aria-label="Your Requirement"
                 value={modalRequirement}
-                onChange={(event) => setModalRequirement(event.target.value)}
+                onChange={(event) => setModalRequirement(event.target.value as RequirementValue)}
               >
-                {categoryCards.map((item) => (
-                  <option key={item.title} value={item.title}>
-                    {item.title}
+                <option value="" disabled>
+                  Your Requirement
+                </option>
+                {requirementOptions.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
                   </option>
                 ))}
               </select>
-              <select aria-label="City" defaultValue="">
+              <select
+                name="purpose"
+                aria-label="Purpose"
+                value={modalPurpose}
+                onChange={(event) => {
+                  setModalPurpose(event.target.value as PurposeValue);
+                  setModalMaxAmount("");
+                }}
+              >
+                <option value="" disabled>
+                  Purpose
+                </option>
+                {purposeOptions.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+              {modalPurpose ? (
+                <div className={styles.amountRow}>
+                  <input
+                    type="number"
+                    name="minimumAmount"
+                    placeholder="Minimum Amount"
+                    aria-label="Minimum Amount"
+                    value={getMinimumAmount(modalPurpose)}
+                    readOnly
+                  />
+                  <input
+                    type="number"
+                    name="maximumAmount"
+                    placeholder="Maximum Amount"
+                    aria-label="Maximum Amount"
+                    min={getMinimumAmount(modalPurpose)}
+                    value={modalMaxAmount}
+                    onChange={(event) => setModalMaxAmount(event.target.value)}
+                  />
+                </div>
+              ) : null}
+              <select name="city" aria-label="City" defaultValue="">
                 <option value="" disabled>
                   City
                 </option>

@@ -293,6 +293,12 @@
   background-repeat: no-repeat;
 }
 
+.amountRow {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+}
+
 .consultForm button {
   min-height: 50px;
   border: 0;
@@ -1363,6 +1369,11 @@
   .consultForm button {
     min-height: 44px;
     font-size: 1.2rem;
+  }
+
+  .amountRow {
+    grid-template-columns: 1fr;
+    gap: 8px;
   }
 
   .trustedSection h2::before,
