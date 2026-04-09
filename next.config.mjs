@@ -8,6 +8,7 @@ const nextConfig = {
   reactStrictMode: true,
   images: {
     formats: ["image/avif", "image/webp"],
+    qualities: [68, 75, 80, 86],
     minimumCacheTTL: 2678400,
     remotePatterns: [
       {

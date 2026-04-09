@@ -131,15 +131,17 @@
 .enquireButton {
   position: relative;
   overflow: hidden;
-  min-width: 240px;
+  min-width: 228px;
   min-height: 48px;
-  padding: 0 24px;
-  border: 1px solid #e6a357;
+  padding: 0 22px;
+  border: 1px solid rgba(120, 194, 208, 0.92);
   border-radius: 999px;
-  background: linear-gradient(145deg, #ffbc58 0%, #f58a2b 48%, #db6016 100%);
-  box-shadow: 0 10px 22px rgba(181, 96, 22, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0) 48%),
+    linear-gradient(145deg, rgb(13, 145, 170) 0%, rgb(10, 127, 150) 52%, rgb(8, 102, 121) 100%);
+  box-shadow: 0 10px 22px rgba(8, 96, 115, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.28);
   color: #ffffff;
-  font-size: 1.02rem;
+  font-size: 0.98rem;
   font-weight: 800;
   letter-spacing: 0.01em;
 }
@@ -147,11 +149,11 @@
 .enquireButton::after {
   content: "";
   position: absolute;
-  left: -42%;
+  left: -40%;
   top: 0;
-  width: 30%;
+  width: 34%;
   height: 100%;
-  background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0));
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.24), rgba(255, 255, 255, 0));
   transform: skewX(-18deg);
   transition: left 340ms ease;
 }

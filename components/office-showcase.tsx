@@ -42,11 +42,11 @@ type WhyPoint = {
 };
 
 const requirementOptions = [
-  "Office Space furnished",
-  "Office Space Non- Furnished",
+  "Fully Furnished Office Spaces",
+  "Non-Furnished Office Spaces",
   "Showrooms / shops",
   "Commercial investment",
-  "coworking"
+  "Coworking"
 ] as const;
 
 const purposeOptions = ["Rent", "Sale", "Purchase", "Lease"] as const;
@@ -64,14 +64,14 @@ const minimumAmountByPurpose: Record<PurposeOption, number> = {
 };
 
 const requirementByCardTitle: Record<string, RequirementOption> = {
-  "Office Spaces": "Office Space furnished",
+  "Office Spaces": "Fully Furnished Office Spaces",
   "Retail Showrooms": "Showrooms / shops",
   "Commercial Investments": "Commercial investment",
-  "Coworking Spaces": "coworking"
+  "Coworking Spaces": "Coworking"
 };
 
 const consultationWhatsappNumber = "919111832003";
-const requirementsWithoutPurpose: RequirementOption[] = ["Commercial investment", "coworking"];
+const requirementsWithoutPurpose: RequirementOption[] = ["Commercial investment", "Coworking"];
 
 const getMinimumAmount = (purpose: PurposeValue) => (purpose ? minimumAmountByPurpose[purpose].toString() : "");
 const isPurposeRequired = (requirement: RequirementValue) =>
@@ -116,28 +116,28 @@ const categoryCards: CategoryCard[] = [
     badge: "Ready Inventory",
     subtitle: "Non-Furnished | Furnished Options",
     tone: "teal",
-    imageUrl: "https://theofficeonrent.com/wp-content/uploads/2026/03/WhatsApp-Image-2025-12-11-at-2.20.33-PM-1.jpeg"
+    imageUrl: "/office-space-card.jpg"
   },
   {
     title: "Retail Showrooms",
     badge: "Prime Locations",
     subtitle: "Showrooms | Shops",
     tone: "orange",
-    imageUrl: "https://theofficeonrent.com/wp-content/uploads/2026/03/WhatsApp-Image-2025-12-11-at-1.17.44-PM.jpeg"
+    imageUrl: "/retail-showrooms-card.jpg"
   },
   {
     title: "Commercial Investments",
     badge: "Top ROI",
     subtitle: "High ROI Opportunities",
     tone: "blue",
-    imageUrl: "https://theofficeonrent.com/wp-content/uploads/2026/03/WhatsApp-Image-2025-12-11-at-1.17.44-PM-1.jpeg"
+    imageUrl: "/commercial-investment-card.jpg"
   },
   {
     title: "Coworking Spaces",
     badge: "Flexible Plans",
     subtitle: "Flexible and Plug-and-Play Offices",
     tone: "teal",
-    imageUrl: "https://theofficeonrent.com/wp-content/uploads/2026/03/WhatsApp-Image-2025-12-11-at-2.20.33-PM-1.jpeg"
+    imageUrl: "/coworking-space-card.jpg"
   }
 ];
 
