@@ -569,9 +569,6 @@ export function OfficeShowcase() {
                 City
               </option>
               <option>Indore</option>
-              <option>Bhopal</option>
-              <option>Pune</option>
-              <option>Delhi NCR</option>
             </select>
             <button type="submit">Get Free Consultation</button>
           </form>
