@@ -85,14 +85,14 @@ const footerImage = "/footer.png";
 const whyPoints: WhyPoint[] = [
   {
     title: "Zero-Brokerage Options",
-    detail: "No Brokerage if you opt for co-working spaces and Zero-Brokerage for 5 years agrement and three years locking period"
+    detail: "No Brokerage if you opt for co-working spaces or Zero-Brokerage for 5 years agrement and three years locking period"
   },
   {
     title: "Leaseing Services",
     detail: "Comprehensive leasing services for office spaces, retail showrooms and commercial properties."
   },
   {
-    title: "Co-Working Aliance",
+    title: "Co-Working Alliance",
     detail: "Allied with 65+ co-working spaces for plug-and-play offices."
   },
   {
@@ -157,7 +157,7 @@ const testimonialCards: Testimonial[] = [
   {
     name: "Vivek Bansal",
     quote:
-      "PAN India expansion me inki support genuinely end-to-end thi. Site visits se agreement tak har step pe quick response mila.",
+      "Hume Indore mein furnished office chahiye tha aur team ne budget ke andar best options arrange kiye. Site visits aur paperwork dono bahut efficiently manage hua.",
     rating: 5
   }
 ];
@@ -379,7 +379,7 @@ export function OfficeShowcase() {
               <span className={styles.wordSlash}> / </span>
               <span className={styles.wordOrange}>Coworking Space</span> in Indore
             </h1>
-            <p>Fully Furnished | Non-Furnished |Investment Options</p>
+            <p>Fully Furnished | Non-Furnished | Investment Options</p>
           </div>
 
           <div className={styles.statsRow}>
@@ -466,9 +466,7 @@ export function OfficeShowcase() {
                   City
                 </option>
                 <option>Indore</option>
-                <option>Bhopal</option>
-                <option>Pune</option>
-                <option>Delhi NCR</option>
+                
               </select>
               <button type="submit">Get Free Consultation</button>
             </form>
