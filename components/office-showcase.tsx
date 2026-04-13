@@ -56,13 +56,6 @@ type RequirementValue = RequirementOption | "";
 type PurposeOption = (typeof purposeOptions)[number];
 type PurposeValue = PurposeOption | "";
 
-const minimumAmountByPurpose: Record<PurposeOption, number> = {
-  Rent: 30000,
-  Sale: 5000000,
-  Purchase: 5000000,
-  Lease: 100000
-};
-
 const requirementByCardTitle: Record<string, RequirementOption> = {
   "Office Spaces": "Fully Furnished Office Spaces",
   "Retail Showrooms": "Showrooms / shops",
@@ -73,7 +66,6 @@ const requirementByCardTitle: Record<string, RequirementOption> = {
 const consultationWhatsappNumber = "919111832003";
 const requirementsWithoutPurpose: RequirementOption[] = ["Commercial investment", "Coworking"];
 
-const getMinimumAmount = (purpose: PurposeValue) => (purpose ? minimumAmountByPurpose[purpose].toString() : "");
 const isPurposeRequired = (requirement: RequirementValue) =>
   !requirementsWithoutPurpose.some(
     (value) => value.toLowerCase() === requirement.trim().toLowerCase()
@@ -166,12 +158,15 @@ export function OfficeShowcase() {
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
   const [desktopRequirement, setDesktopRequirement] = useState<RequirementValue>("");
   const [desktopPurpose, setDesktopPurpose] = useState<PurposeValue>("");
+  const [desktopMinAmount, setDesktopMinAmount] = useState("");
   const [desktopMaxAmount, setDesktopMaxAmount] = useState("");
   const [mobileRequirement, setMobileRequirement] = useState<RequirementValue>("");
   const [mobilePurpose, setMobilePurpose] = useState<PurposeValue>("");
+  const [mobileMinAmount, setMobileMinAmount] = useState("");
   const [mobileMaxAmount, setMobileMaxAmount] = useState("");
   const [modalRequirement, setModalRequirement] = useState<RequirementValue>("");
   const [modalPurpose, setModalPurpose] = useState<PurposeValue>("");
+  const [modalMinAmount, setModalMinAmount] = useState("");
   const [modalMaxAmount, setModalMaxAmount] = useState("");
 
   const scrollToFooter = () => {
@@ -184,6 +179,7 @@ export function OfficeShowcase() {
   const openDetailsModal = (requirement: string) => {
     setModalRequirement(requirementByCardTitle[requirement] ?? requirementOptions[0]);
     setModalPurpose("");
+    setModalMinAmount("");
     setModalMaxAmount("");
     setIsDetailsModalOpen(true);
   };
@@ -217,8 +213,8 @@ export function OfficeShowcase() {
     const name = formData.get("name")?.toString().trim() ?? "";
     const mobile = formData.get("mobile")?.toString().trim() ?? "";
     const city = formData.get("city")?.toString().trim() ?? "";
+    const minAmount = purposeRequired ? formData.get("minimumAmount")?.toString().trim() ?? "" : "";
     const maxAmount = purposeRequired ? formData.get("maximumAmount")?.toString().trim() ?? "" : "";
-    const minAmount = purpose ? getMinimumAmount(purpose) : "";
 
     const whatsappLines = [
       "New Free Consultation Enquiry",
@@ -227,7 +223,7 @@ export function OfficeShowcase() {
       `Mobile: ${mobile || "Not provided"}`,
       `Requirement: ${selectedRequirement || "Not selected"}`,
       `Purpose: ${purposeRequired ? purpose || "Not selected" : "Not required"}`,
-      `Minimum Amount: ${purposeRequired ? minAmount || "Not selected" : "Not required"}`,
+      `Minimum Amount: ${purposeRequired ? minAmount || "Not provided" : "Not required"}`,
       `Maximum Amount: ${purposeRequired ? maxAmount || "Not provided" : "Not required"}`,
       `City: ${city || "Not selected"}`
     ];
@@ -406,6 +402,7 @@ export function OfficeShowcase() {
                   setDesktopRequirement(nextRequirement);
                   if (!isPurposeRequired(nextRequirement)) {
                     setDesktopPurpose("");
+                    setDesktopMinAmount("");
                     setDesktopMaxAmount("");
                   }
                 }}
@@ -427,6 +424,7 @@ export function OfficeShowcase() {
                   value={desktopPurpose}
                   onChange={(event) => {
                     setDesktopPurpose(event.target.value as PurposeValue);
+                    setDesktopMinAmount("");
                     setDesktopMaxAmount("");
                   }}
                 >
@@ -447,15 +445,15 @@ export function OfficeShowcase() {
                     name="minimumAmount"
                     placeholder="Minimum Amount"
                     aria-label="Minimum Amount"
-                    value={getMinimumAmount(desktopPurpose)}
-                    readOnly
+                    value={desktopMinAmount}
+                    onChange={(event) => setDesktopMinAmount(event.target.value)}
                   />
                   <input
                     type="number"
                     name="maximumAmount"
                     placeholder="Maximum Amount"
                     aria-label="Maximum Amount"
-                    min={getMinimumAmount(desktopPurpose)}
+                    min={desktopMinAmount || undefined}
                     value={desktopMaxAmount}
                     onChange={(event) => setDesktopMaxAmount(event.target.value)}
                   />
@@ -509,6 +507,7 @@ export function OfficeShowcase() {
                 setMobileRequirement(nextRequirement);
                 if (!isPurposeRequired(nextRequirement)) {
                   setMobilePurpose("");
+                  setMobileMinAmount("");
                   setMobileMaxAmount("");
                 }
               }}
@@ -530,6 +529,7 @@ export function OfficeShowcase() {
                 value={mobilePurpose}
                 onChange={(event) => {
                   setMobilePurpose(event.target.value as PurposeValue);
+                  setMobileMinAmount("");
                   setMobileMaxAmount("");
                 }}
               >
@@ -550,15 +550,15 @@ export function OfficeShowcase() {
                   name="minimumAmount"
                   placeholder="Minimum Amount"
                   aria-label="Minimum Amount"
-                  value={getMinimumAmount(mobilePurpose)}
-                  readOnly
+                  value={mobileMinAmount}
+                  onChange={(event) => setMobileMinAmount(event.target.value)}
                 />
                 <input
                   type="number"
                   name="maximumAmount"
                   placeholder="Maximum Amount"
                   aria-label="Maximum Amount"
-                  min={getMinimumAmount(mobilePurpose)}
+                  min={mobileMinAmount || undefined}
                   value={mobileMaxAmount}
                   onChange={(event) => setMobileMaxAmount(event.target.value)}
                 />
@@ -768,6 +768,7 @@ export function OfficeShowcase() {
                   setModalRequirement(nextRequirement);
                   if (!isPurposeRequired(nextRequirement)) {
                     setModalPurpose("");
+                    setModalMinAmount("");
                     setModalMaxAmount("");
                   }
                 }}
@@ -789,6 +790,7 @@ export function OfficeShowcase() {
                   value={modalPurpose}
                   onChange={(event) => {
                     setModalPurpose(event.target.value as PurposeValue);
+                    setModalMinAmount("");
                     setModalMaxAmount("");
                   }}
                 >
@@ -809,15 +811,15 @@ export function OfficeShowcase() {
                     name="minimumAmount"
                     placeholder="Minimum Amount"
                     aria-label="Minimum Amount"
-                    value={getMinimumAmount(modalPurpose)}
-                    readOnly
+                    value={modalMinAmount}
+                    onChange={(event) => setModalMinAmount(event.target.value)}
                   />
                   <input
                     type="number"
                     name="maximumAmount"
                     placeholder="Maximum Amount"
                     aria-label="Maximum Amount"
-                    min={getMinimumAmount(modalPurpose)}
+                    min={modalMinAmount || undefined}
                     value={modalMaxAmount}
                     onChange={(event) => setModalMaxAmount(event.target.value)}
                   />
