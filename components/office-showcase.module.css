@@ -1030,7 +1030,7 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px;
-  width: min(920px, 100%);
+  width: min(680px, 100%);
   margin: 11px auto 0;
 }
 
@@ -1574,31 +1574,33 @@
 
   .actionMeta {
     justify-content: center;
-    font-size: 0.9rem;
+    font-size: 0.84rem;
     line-height: 1.35;
-    gap: 7px;
+    gap: 6px;
   }
 
   .actionMeta span {
-    padding: 4px 10px;
+    padding: 3px 8px;
   }
 
   .actionButtons {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 6px;
+    width: min(330px, 92%);
+    margin-top: 8px;
   }
 
   .actionButton {
-    min-height: 40px;
-    padding: 0 6px;
+    min-height: 36px;
+    padding: 0 4px;
     gap: 4px;
-    font-size: 0.78rem;
+    font-size: 0.74rem;
   }
 
   .actionButton .buttonIcon {
-    min-width: 22px;
-    min-height: 20px;
-    padding: 0 5px;
+    min-width: 20px;
+    min-height: 18px;
+    padding: 0 4px;
   }
 
   .actionButton .buttonIcon svg {
@@ -1612,8 +1614,14 @@
     text-overflow: ellipsis;
   }
 
+  .contactCard {
+    width: min(560px, 94%);
+    margin-top: 10px;
+    padding: 10px 12px 11px;
+  }
+
   .footerLogo {
-    width: min(220px, 100%);
+    width: min(180px, 78%);
   }
 
   .contactContent {
@@ -1738,14 +1746,24 @@
   }
 
   .actionMeta {
-    font-size: 0.82rem;
+    font-size: 0.76rem;
+    gap: 5px;
+  }
+
+  .actionMeta span {
+    padding: 2px 7px;
+  }
+
+  .actionButtons {
+    width: min(290px, 92%);
+    gap: 5px;
   }
 
   .actionButton {
-    min-height: 36px;
-    padding: 0 4px;
+    min-height: 33px;
+    padding: 0 3px;
     gap: 3px;
-    font-size: 0.72rem;
+    font-size: 0.68rem;
   }
 
   .actionButton .buttonIcon {
@@ -1755,8 +1773,16 @@
   }
 
   .actionButton .buttonIcon svg {
-    width: 10px;
-    height: 10px;
+    width: 9px;
+    height: 9px;
+  }
+
+  .contactCard {
+    padding: 9px 10px 10px;
+  }
+
+  .footerLogo {
+    width: min(160px, 76%);
   }
 
   .contactHeading {
