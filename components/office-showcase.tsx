@@ -71,6 +71,15 @@ const isPurposeRequired = (requirement: RequirementValue) =>
     (value) => value.toLowerCase() === requirement.trim().toLowerCase()
   );
 
+type FbqTrackFunction = (eventType: "track", eventName: string) => void;
+
+const trackLeadEvent = () => {
+  const fbq = (window as Window & { fbq?: FbqTrackFunction }).fbq;
+  if (typeof fbq === "function") {
+    fbq("track", "Lead");
+  }
+};
+
 const heroStats = ["500+ Clients", "250+ Deals Closed", "Zero Brokerage options"];
 const headerImage = "/header-skyline.png";
 const footerImage = "/footer.png";
@@ -215,6 +224,9 @@ export function OfficeShowcase() {
     const city = formData.get("city")?.toString().trim() ?? "";
     const minAmount = purposeRequired ? formData.get("minimumAmount")?.toString().trim() ?? "" : "";
     const maxAmount = purposeRequired ? formData.get("maximumAmount")?.toString().trim() ?? "" : "";
+    const shouldTrackLead = Boolean(
+      name && mobile && selectedRequirement && city && (!purposeRequired || purpose)
+    );
 
     const whatsappLines = [
       "New Free Consultation Enquiry",
@@ -227,6 +239,10 @@ export function OfficeShowcase() {
       `Maximum Amount: ${purposeRequired ? maxAmount || "Not provided" : "Not required"}`,
       `City: ${city || "Not selected"}`
     ];
+
+    if (shouldTrackLead) {
+      trackLeadEvent();
+    }
 
     const whatsappUrl = `https://wa.me/${consultationWhatsappNumber}?text=${encodeURIComponent(whatsappLines.join("\n"))}`;
     const whatsappWindow = window.open(whatsappUrl, "_blank", "noopener,noreferrer");
