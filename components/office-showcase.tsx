@@ -64,6 +64,9 @@ const requirementByCardTitle: Record<string, RequirementOption> = {
 };
 
 const consultationWhatsappNumber = "919111832003";
+const leadFormConversionLabel = "AW-18162468615/aFQWCIb5_qwcEIeOxdRD";
+const coworkingCallConversionLabel = "AW-18162468615/dd3qCKmuta0cEIeOxdRD";
+const commercialCallConversionLabel = "AW-18162468615/UbUSCKyuta0cEIeOxdRD";
 const requirementsWithoutPurpose: RequirementOption[] = ["Commercial investment", "Coworking"];
 
 const isPurposeRequired = (requirement: RequirementValue) =>
@@ -72,11 +75,40 @@ const isPurposeRequired = (requirement: RequirementValue) =>
   );
 
 type FbqTrackFunction = (eventType: "track", eventName: string) => void;
+type GtagEventFunction = (
+  eventType: "event",
+  eventName: "conversion",
+  eventData: { send_to: string; event_callback?: () => void }
+) => void;
+type GtagReportConversionFunction = (url?: string) => boolean;
 
 const trackLeadEvent = () => {
   const fbq = (window as Window & { fbq?: FbqTrackFunction }).fbq;
   if (typeof fbq === "function") {
     fbq("track", "Lead");
+  }
+};
+
+const trackGoogleLeadConversion = () => {
+  const gtagReportConversion = (
+    window as Window & { gtag_report_conversion?: GtagReportConversionFunction }
+  ).gtag_report_conversion;
+
+  if (typeof gtagReportConversion === "function") {
+    gtagReportConversion();
+    return;
+  }
+
+  const gtag = (window as Window & { gtag?: GtagEventFunction }).gtag;
+  if (typeof gtag === "function") {
+    gtag("event", "conversion", { send_to: leadFormConversionLabel });
+  }
+};
+
+const trackPhoneCallClickConversion = (sendTo: string) => {
+  const gtag = (window as Window & { gtag?: GtagEventFunction }).gtag;
+  if (typeof gtag === "function") {
+    gtag("event", "conversion", { send_to: sendTo });
   }
 };
 
@@ -242,6 +274,7 @@ export function OfficeShowcase() {
 
     if (shouldTrackLead) {
       trackLeadEvent();
+      trackGoogleLeadConversion();
     }
 
     const whatsappUrl = `https://wa.me/${consultationWhatsappNumber}?text=${encodeURIComponent(whatsappLines.join("\n"))}`;
@@ -727,13 +760,21 @@ export function OfficeShowcase() {
                 <div className={styles.contactRows}>
                   <p className={styles.contactRow}>
                     <span className={styles.contactLabel}>Commercial -</span>
-                    <a className={styles.contactValue} href="tel:+919111832003">
+                    <a
+                      className={styles.contactValue}
+                      href="tel:+919111832003"
+                      onClick={() => trackPhoneCallClickConversion(commercialCallConversionLabel)}
+                    >
                       +919111832003
                     </a>
                   </p>
                   <p className={styles.contactRow}>
                     <span className={styles.contactLabel}>Coworking -</span>
-                    <a className={styles.contactValue} href="tel:+917909702003">
+                    <a
+                      className={styles.contactValue}
+                      href="tel:+917909702003"
+                      onClick={() => trackPhoneCallClickConversion(coworkingCallConversionLabel)}
+                    >
                       +917909702003
                     </a>
                   </p>

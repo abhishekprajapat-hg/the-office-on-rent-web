@@ -7,6 +7,10 @@ const defaultTitle = "Office Space For Rent In Indore | Furnished Offices, Showr
 const defaultDescription =
   "Find furnished and non-furnished office spaces, showrooms, shops, coworking spaces and commercial investment options in Indore with The Office On Rent Workspace.";
 const facebookPixelId = "1086941855960129";
+const googleAdsTagId = "AW-18162468615";
+const leadFormConversionLabel = "AW-18162468615/aFQWCIb5_qwcEIeOxdRD";
+const coworkingCallConversionLabel = "AW-18162468615/dd3qCKmuta0cEIeOxdRD";
+const commercialCallConversionLabel = "AW-18162468615/UbUSCKyuta0cEIeOxdRD";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -75,6 +79,43 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <Script
+          id="google-ads-gtag-src"
+          src={`https://www.googletagmanager.com/gtag/js?id=${googleAdsTagId}`}
+          strategy="beforeInteractive"
+        />
+        <Script id="google-ads-gtag-init" strategy="beforeInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            window.gtag = gtag;
+            gtag('js', new Date());
+            gtag('config', '${googleAdsTagId}');
+            gtag('config', '${coworkingCallConversionLabel}', {
+              'phone_conversion_number': '+917909702003'
+            });
+            gtag('config', '${commercialCallConversionLabel}', {
+              'phone_conversion_number': '+919111832003'
+            });
+
+            function gtag_report_conversion(url) {
+              var callback = function () {
+                if (typeof(url) !== 'undefined') {
+                  window.location = url;
+                }
+              };
+              gtag('event', 'conversion', {
+                'send_to': '${leadFormConversionLabel}',
+                'event_callback': callback
+              });
+              return false;
+            }
+
+            window.gtag_report_conversion = gtag_report_conversion;
+          `}
+        </Script>
+      </head>
       <body>
         <Script id="facebook-pixel" strategy="afterInteractive">
           {`
